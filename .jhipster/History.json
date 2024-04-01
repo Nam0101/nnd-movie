@@ -1,0 +1,37 @@
+{
+  "annotations": {
+    "changelogDate": "20240401213656"
+  },
+  "applications": ["jhipster"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "part",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "stopTime",
+      "fieldType": "Integer"
+    }
+  ],
+  "name": "History",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "movie",
+      "relationshipName": "movie",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,59 @@
+{
+  "annotations": {
+    "changelogDate": "20240401213649"
+  },
+  "applications": ["jhipster"],
+  "dto": "mapstruct",
+  "entityTableName": "movie_user",
+  "fields": [
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "passwordHash",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "activated",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "langKey",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "activationKey",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "resetKey",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "resetDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "User",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,3 @@
+org.springframework.test.context.ContextCustomizerFactory = com.nndmove.app.\
+    config.SqlTestContainersSpringContextCustomizerFactory,com.nndmove.app.\
+    config.RedisTestContainersSpringContextCustomizerFactory

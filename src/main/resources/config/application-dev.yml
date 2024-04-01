@@ -15,7 +15,7 @@
 
 logging:
   level:
-    ROOT: INFO
+    ROOT: DEBUG
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.nndmove.app: DEBUG
@@ -32,9 +32,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://ep-tight-pond-a1243jsz-pooler.ap-southeast-1.aws.neon.tech/movieDB
-    username: movie_owner
-    password: 0nk6dCKAJNPt
+    url: jdbc:postgresql://localhost:5432/jhipster
+    username: jhipster
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -64,7 +64,7 @@ jhipster:
   cache: # Cache configuration
     redis: # Redis configuration
       expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
-      server: redis://default:i9hTGGeRC6syELvWTujcwQxM938vLAIP@redis-14541.c322.us-east-1-2.ec2.cloud.redislabs.com:14541
+      server: redis://localhost:6379
       cluster: false
       # server: redis://localhost:6379,redis://localhost:16379,redis://localhost:26379
       # cluster: true
