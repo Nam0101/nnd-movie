@@ -21,9 +21,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * A user.
  */
 @Entity
-@Table(name = "jhi_user")
+@Table(name = "movie_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "user")
 public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -86,7 +85,7 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "jhi_user_authority",
+        name = "movie_user_authority",
         joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
         inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
     )

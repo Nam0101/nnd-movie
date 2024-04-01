@@ -81,6 +81,14 @@ public class CacheConfiguration {
             createCache(cm, com.nndmove.app.domain.User.class.getName(), jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.Authority.class.getName(), jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.Premium.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.Payment.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.Movie.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.Genres.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.MovieGenres.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.MovieResource.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.History.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.Playlist.class.getName(), jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }

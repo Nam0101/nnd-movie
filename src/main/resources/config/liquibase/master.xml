@@ -11,7 +11,21 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213650_added_entity_Premium.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213651_added_entity_Payment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213652_added_entity_Movie.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213653_added_entity_Genres.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213654_added_entity_MovieGenres.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213655_added_entity_MovieResource.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213656_added_entity_History.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213657_added_entity_Playlist.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20240401213650_added_entity_constraints_Premium.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213651_added_entity_constraints_Payment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213654_added_entity_constraints_MovieGenres.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213655_added_entity_constraints_MovieResource.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213656_added_entity_constraints_History.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213657_added_entity_constraints_Playlist.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

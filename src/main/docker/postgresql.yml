@@ -1,12 +1,12 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-name: nndmovie
+name: jhipster
 services:
   postgresql:
     image: postgres:16.2
     # volumes:
-    #   - ~/volumes/jhipster/nndmovie/postgresql/:/var/lib/postgresql/data/
+    #   - ~/volumes/jhipster/jhipster/postgresql/:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=nndmovie
+      - POSTGRES_USER=jhipster
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
     healthcheck:

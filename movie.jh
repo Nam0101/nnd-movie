@@ -1,3 +1,39 @@
+application {
+    config {
+        applicationType monolith
+        authenticationType	jwt
+        databaseType	sql
+        devDatabaseType	postgresql
+        enableHibernateCache	true
+        enableSwaggerCodegen	true
+        enableTranslation	false
+        jhiPrefix	movie
+        languages	[vi]
+        messageBroker	false
+        nativeLanguage	vi
+        prodDatabaseType postgresql
+        searchEngine false
+        skipClient true
+        cacheProvider redis
+    }
+    entities *
+    dto *  with mapstruct
+    service * with serviceClass
+    paginate * with pagination
+}
+entity User {
+  username String,
+  passwordHash String,
+  firstName String,
+  lastName String,
+  email String,
+  activated Boolean,
+  langKey String,
+  imageUrl String,
+  activationKey String,
+  resetKey String,
+  resetDate Instant
+}
 entity Premium {
   startDate Instant,
   endDate Instant
@@ -50,12 +86,6 @@ entity History {
 entity Playlist {
 }
 
-relationship OneToMany {
-  User{premium} to Premium,
-  User{payment} to Payment,
-  User{history} to History,
-  User{playlist} to Playlist
-}
 
 relationship ManyToOne {
   Premium{user(id)} to User,

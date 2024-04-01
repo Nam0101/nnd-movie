@@ -28,7 +28,7 @@
 # - In Consul mode, the ports are in the consul.yml file.
 # - In Eureka mode, the ports are in the jhipster-registry.yml file.
 
-name: nndmovie
+name: jhipster
 services:
   jhipster-control-center:
     image: 'jhipster/jhipster-control-center:v0.5.0'
@@ -43,7 +43,7 @@ services:
       - SPRING_SECURITY_USER_PASSWORD=admin
       # The token should have the same value than the one declared in you Spring configuration under the jhipster.security.authentication.jwt.base64-secret configuration's entry
       - JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=M2IxYTYxZjE0NzMxOTEyZDcyMTMyNDc4MGQ3MmMyYTI4NDZhNGI4MzM4Mzg0NDE4ZmU0ZDI5NGIyMDYwZDg1YzlhYmNjYWJhMjExZGM0ZGY3NGUwMmI1ZjU4ZWM4NjA5ZmM3NzJjYzYzNzIwMzU2ZDQ4NTlmMDFjM2ZlY2I4NWI=
-      - SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_NNDMOVIE_0_URI=http://host.docker.internal:8080
+      - SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_JHIPSTER_0_URI=http://host.docker.internal:8080
       - LOGGING_FILE_NAME=/tmp/jhipster-control-center.log
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix

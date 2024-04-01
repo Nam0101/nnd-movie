@@ -1,7 +1,0 @@
-<template>
-  <div class="info jhi-item-count">
-    <span>Showing {{ first }} - {{ second }} of {{ total }} items.</span>
-  </div>
-</template>
-
-<script lang="ts" src="./jhi-item-count.component.ts"></script>

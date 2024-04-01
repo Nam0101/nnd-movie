@@ -15,15 +15,10 @@
 
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.nndmove.app: DEBUG
-
-management:
-  health:
-    elasticsearch:
-      enabled: false
 
 spring:
   devtools:
@@ -37,14 +32,12 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/nndmovie
-    username: nndmovie
-    password:
+    url: jdbc:postgresql://ep-tight-pond-a1243jsz-pooler.ap-southeast-1.aws.neon.tech/movieDB
+    username: movie_owner
+    password: 0nk6dCKAJNPt
     hikari:
       poolName: Hikari
       auto-commit: false
-  elasticsearch:
-    uris: http://localhost:9200
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
@@ -71,14 +64,14 @@ jhipster:
   cache: # Cache configuration
     redis: # Redis configuration
       expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
-      server: redis://localhost:6379
+      server: redis://default:i9hTGGeRC6syELvWTujcwQxM938vLAIP@redis-14541.c322.us-east-1-2.ec2.cloud.redislabs.com:14541
       cluster: false
       # server: redis://localhost:6379,redis://localhost:16379,redis://localhost:26379
       # cluster: true
   # CORS is only enabled by default with the "dev" profile
   cors:
     # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
-    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:9060,https://localhost:9060'
+    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000'
     # Enable CORS when running in GitHub Codespaces
     allowed-origin-patterns: 'https://*.githubpreview.dev'
     allowed-methods: '*'

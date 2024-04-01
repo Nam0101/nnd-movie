@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.nndmove.app</groupId>
-    <artifactId>nndmovie</artifactId>
+    <artifactId>jhipster</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Nndmovie</name>
-    <description>Description for Nndmovie</description>
+    <name>JHipster</name>
+    <description>Description for JHipster</description>
 
     <properties>
         <!--
@@ -17,8 +17,6 @@
         -->
         <maven.version>3.2.5</maven.version>
         <java.version>17</java.version>
-        <node.version>v20.11.1</node.version>
-        <npm.version>10.5.0</npm.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -32,8 +30,6 @@
         <spring-boot.version>3.2.3</spring-boot.version>
         <archunit-junit5.version>1.2.1</archunit-junit5.version>
         <checkstyle.version>10.14.2</checkstyle.version>
-        <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
-        <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
         <gatling-maven-plugin.version>4.8.2</gatling-maven-plugin.version>
         <gatling.version>3.10.4</gatling.version>
         <git-commit-id-maven-plugin.version>8.0.2</git-commit-id-maven-plugin.version>
@@ -48,7 +44,6 @@
         <liquibase-plugin.username/>
         <liquibase.version>4.24.0</liquibase.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -86,6 +81,7 @@
     </dependencyManagement>
 
     <dependencies>
+
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
@@ -106,10 +102,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -220,17 +212,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
@@ -285,11 +267,6 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
             <artifactId>jdbc</artifactId>
             <scope>test</scope>
         </dependency>
@@ -307,6 +284,11 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.4.0</version>
         </dependency>
     </dependencies>
 
@@ -423,16 +405,6 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>com.github.eirslett</groupId>
-                    <artifactId>frontend-maven-plugin</artifactId>
-                    <version>${frontend-maven-plugin.version}</version>
-                    <configuration>
-                        <installDirectory>target</installDirectory>
-                        <nodeVersion>${node.version}</nodeVersion>
-                        <npmVersion>${npm.version}</npmVersion>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <groupId>com.google.cloud.tools</groupId>
                     <artifactId>jib-maven-plugin</artifactId>
                     <version>${jib-maven-plugin.version}</version>
@@ -447,7 +419,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>nndmovie:latest</image>
+                            <image>jhipster:latest</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -719,15 +691,6 @@
                     <configuration>
                         <warSourceIncludes>WEB-INF/**,META-INF/**</warSourceIncludes>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
-                        <warSourceDirectory>target/classes/static/</warSourceDirectory>
-                        <webResources>
-                            <resource>
-                                <directory>src/main/webapp</directory>
-                                <includes>
-                                    <include>WEB-INF/**</include>
-                                </includes>
-                            </resource>
-                        </webResources>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -856,7 +819,7 @@
                                 <skipValidateSpec>false</skipValidateSpec>
                                 <configOptions>
                                     <delegatePattern>true</delegatePattern>
-                                    <title>nndmovie</title>
+                                    <title>jhipster</title>
                                     <useSpringBoot3>true</useSpringBoot3>
                                 </configOptions>
                             </configuration>
@@ -888,8 +851,8 @@
                 <!-- default Spring profiles -->
                 <spring.profiles.active>dev${profile.tls}${profile.no-liquibase}</spring.profiles.active>
                 <profile.test>testdev</profile.test>
-                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/nndmovie</liquibase-plugin.url>
-                <liquibase-plugin.username>nndmovie</liquibase-plugin.username>
+                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/jhipster</liquibase-plugin.url>
+                <liquibase-plugin.username>jhipster</liquibase-plugin.username>
                 <liquibase-plugin.password/>
             </properties>
             <dependencies>
@@ -937,20 +900,6 @@
                                                 <versionRange>${jacoco-maven-plugin.version}</versionRange>
                                                 <goals>
                                                     <goal>prepare-agent</goal>
-                                                </goals>
-                                            </pluginExecutionFilter>
-                                            <action>
-                                                <ignore/>
-                                            </action>
-                                        </pluginExecution>
-                                        <pluginExecution>
-                                            <pluginExecutionFilter>
-                                                <groupId>com.github.eirslett</groupId>
-                                                <artifactId>frontend-maven-plugin</artifactId>
-                                                <versionRange>${frontend-maven-plugin.version}</versionRange>
-                                                <goals>
-                                                    <goal>install-node-and-npm</goal>
-                                                    <goal>npm</goal>
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
@@ -1009,8 +958,8 @@
                 <!-- default Spring profiles -->
                 <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.e2e}${profile.no-liquibase}</spring.profiles.active>
                 <profile.test>testprod</profile.test>
-                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/nndmovie</liquibase-plugin.url>
-                <liquibase-plugin.username>nndmovie</liquibase-plugin.username>
+                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/jhipster</liquibase-plugin.url>
+                <liquibase-plugin.username>jhipster</liquibase-plugin.username>
                 <liquibase-plugin.password/>
             </properties>
             <build>
@@ -1038,49 +987,6 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>install-node-and-npm</id>
-                                <goals>
-                                    <goal>install-node-and-npm</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>npm install</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>webapp build test</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                                <phase>test</phase>
-                                <configuration>
-                                    <arguments>run webapp:test</arguments>
-                                    <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>webapp build prod</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <arguments>run webapp:prod</arguments>
-                                    <environmentVariables>
-                                        <APP_VERSION>${project.version}</APP_VERSION>
-                                    </environmentVariables>
-                                    <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>io.github.git-commit-id</groupId>
                         <artifactId>git-commit-id-maven-plugin</artifactId>
                     </plugin>
@@ -1103,131 +1009,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>webapp</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.nicoulaj.maven.plugins</groupId>
-                        <artifactId>checksum-maven-plugin</artifactId>
-                        <version>${checksum-maven-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>create-pre-compiled-webapp-checksum</id>
-                                <goals>
-                                    <goal>files</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                            </execution>
-                            <execution>
-                                <id>create-compiled-webapp-checksum</id>
-                                <goals>
-                                    <goal>files</goal>
-                                </goals>
-                                <phase>compile</phase>
-                                <configuration>
-                                    <csvSummaryFile>checksums.csv.old</csvSummaryFile>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <fileSets>
-                                <fileSet>
-                                    <directory>${project.basedir}</directory>
-                                    <includes>
-                                        <include>src/main/webapp/**/*.*</include>
-                                        <include>target/classes/static/**/*.*</include>
-                                        <include>package-lock.json</include>
-                                        <include>package.json</include>
-                                        <include>tsconfig.json</include>
-                                        <include>tsconfig.app.json</include>
-                                        <include>.postcssrc.js</include>
-                                        <include>vite.config.ts</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>**/app/**/service-worker.js</exclude>
-                                        <exclude>**/app/**/vendor.css</exclude>
-                                    </excludes>
-                                </fileSet>
-                            </fileSets>
-                            <failOnError>false</failOnError>
-                            <failIfNoFiles>false</failIfNoFiles>
-                            <individualFiles>false</individualFiles>
-                            <algorithms>
-                                <algorithm>SHA-1</algorithm>
-                            </algorithms>
-                            <includeRelativePath>true</includeRelativePath>
-                            <quiet>true</quiet>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>${maven-antrun-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>eval-frontend-checksum</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <condition property="skip.npm" value="true" else="false">
-                                            <and>
-                                                <available file="checksums.csv" filepath="${project.build.directory}"/>
-                                                <available file="checksums.csv.old" filepath="${project.build.directory}"/>
-                                                <filesmatch file1="${project.build.directory}/checksums.csv" file2="${project.build.directory}/checksums.csv.old"/>
-                                            </and>
-                                        </condition>
-                                    </target>
-                                    <exportAntProperties>true</exportAntProperties>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>install-node-and-npm</id>
-                                <goals>
-                                    <goal>install-node-and-npm</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>npm install</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>webapp build dev</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <arguments>run webapp:build</arguments>
-                                    <environmentVariables>
-                                        <APP_VERSION>${project.version}</APP_VERSION>
-                                    </environmentVariables>
-                                    <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <properties>
-                <!-- default Spring profiles -->
-                <spring.profiles.active>dev${profile.no-liquibase}</spring.profiles.active>
-            </properties>
         </profile>
     </profiles>
 </project>

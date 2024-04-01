@@ -1,11 +1,9 @@
 package com.nndmove.app.web.rest;
 
-import com.nndmove.app.repository.search.UserSearchRepository;
 import com.nndmove.app.service.UserService;
 import com.nndmove.app.service.dto.UserDTO;
 import java.util.*;
 import java.util.Collections;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -29,11 +27,9 @@ public class PublicUserResource {
     private final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
 
     private final UserService userService;
-    private final UserSearchRepository userSearchRepository;
 
-    public PublicUserResource(UserSearchRepository userSearchRepository, UserService userService) {
+    public PublicUserResource(UserService userService) {
         this.userService = userService;
-        this.userSearchRepository = userSearchRepository;
     }
 
     /**
@@ -56,16 +52,5 @@ public class PublicUserResource {
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
         return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
-    }
-
-    /**
-     * {@code SEARCH /users/_search/:query} : search for the User corresponding to the query.
-     *
-     * @param query the query to search.
-     * @return the result of the search.
-     */
-    @GetMapping("/users/_search/{query}")
-    public List<UserDTO> search(@PathVariable("query") String query) {
-        return StreamSupport.stream(userSearchRepository.search(query).spliterator(), false).map(UserDTO::new).toList();
     }
 }
