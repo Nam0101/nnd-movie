@@ -1,0 +1,82 @@
+{
+  "annotations": {
+    "changelogDate": "20240401213652"
+  },
+  "applications": ["jhipster"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "originName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isCompleted",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "slug",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "episodeCurrent",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "episodeTotal",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "quality",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "year",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "trailerUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "time",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isSingle",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "thumbUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "posterUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "actor",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "country",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "premiumOnly",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "Movie",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

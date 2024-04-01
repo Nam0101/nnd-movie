@@ -1,0 +1,18 @@
+{
+  "annotations": {
+    "changelogDate": "20240401213653"
+  },
+  "applications": ["jhipster"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "genres",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Genres",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

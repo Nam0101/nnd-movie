@@ -1,0 +1,28 @@
+{
+  "annotations": {
+    "changelogDate": "20240401213654"
+  },
+  "applications": ["jhipster"],
+  "dto": "mapstruct",
+  "fields": [],
+  "name": "MovieGenres",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "movie",
+      "relationshipName": "movie",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "genres",
+      "relationshipName": "genres",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

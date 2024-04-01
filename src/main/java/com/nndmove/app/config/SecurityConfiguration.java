@@ -38,8 +38,9 @@ public class SecurityConfiguration {
         http
             .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authz ->
-                // prettier-ignore
+            .authorizeHttpRequests(
+                authz ->
+                    // prettier-ignore
                 authz
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
@@ -47,17 +48,15 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/activate")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/admin/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/api-docs/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/**")).authenticated()
+                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/health")).permitAll()
                     .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
                     .requestMatchers(mvc.pattern("/management/info")).permitAll()
                     .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
-                    .requestMatchers(mvc.pattern("/management/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/swagger-ui.html")).permitAll() // Add this line
-                    .requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()) // Add this line
+                    .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+            )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(
                 exceptions ->
