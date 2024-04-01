@@ -1,0 +1,72 @@
+entity Premium {
+  startDate Instant,
+  endDate Instant
+}
+
+entity Payment {
+  paymentTime Long,
+  paymentPrice Long,
+  paymentMethod String
+}
+
+entity Movie {
+  name String,
+  originName String,
+  isCompleted Boolean,
+  slug String,
+  episodeCurrent String,
+  episodeTotal Integer,
+  quality String,
+  year Integer,
+  trailerUrl String,
+  time String,
+  content String,
+  isSingle Boolean,
+  thumbUrl String,
+  posterUrl String,
+  actor String,
+  country String,
+  premiumOnly Boolean
+}
+
+entity Genres {
+  genres String
+}
+
+entity MovieGenres {
+}
+
+entity MovieResource {
+  part Integer,
+  linkEmbed String,
+  linkM3u8 String
+}
+
+entity History {
+  part Integer,
+  stopTime Integer
+}
+
+entity Playlist {
+}
+
+relationship OneToMany {
+  User{premium} to Premium,
+  User{payment} to Payment,
+  User{history} to History,
+  User{playlist} to Playlist
+}
+
+relationship ManyToOne {
+  Premium{user(id)} to User,
+  Payment{user(id)} to User,
+  History{user(id)} to User,
+  Playlist{user(id)} to User,
+  MovieResource{movie(id)} to Movie,
+  MovieGenres{movie(id)} to Movie,
+  MovieGenres{genres(id)} to Genres,
+  History{movie(id)} to Movie,
+  Playlist{movie(id)} to Movie
+}
+
+paginate Premium, Payment, Movie, Genres, MovieGenres, MovieResource, History, Playlist with pagination
