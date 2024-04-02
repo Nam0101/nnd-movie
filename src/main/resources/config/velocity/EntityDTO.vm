@@ -1,20 +1,21 @@
 package com.nndmove.app.service.dto;
 
+
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+#foreach($field in $additionImports)
+import $field;
+#end
 
 @Getter
 @Setter
 @Accessors(chain = true)
-public class HistoryDTO implements Serializable {
-
+public class ${entityName}DTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private Integer part;
-    private Integer stopTime;
-    private Long userId;
-    private Long movieId;
+#foreach ($field in $dtoFields)
+    $field
+#end
 }

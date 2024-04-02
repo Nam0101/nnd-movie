@@ -1,21 +1,48 @@
 package com.nndmove.app.service.mapper;
 
-import com.nndmove.app.domain.Movie;
 import com.nndmove.app.domain.MovieResource;
-import com.nndmove.app.service.dto.MovieDTO;
 import com.nndmove.app.service.dto.MovieResourceDTO;
-import org.mapstruct.*;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-/**
- * Mapper for the entity {@link MovieResource} and its DTO {@link MovieResourceDTO}.
- */
 @Mapper(componentModel = "spring")
 public interface MovieResourceMapper extends EntityMapper<MovieResourceDTO, MovieResource> {
-    @Mapping(target = "movie", source = "movie", qualifiedByName = "movieId")
-    MovieResourceDTO toDto(MovieResource s);
+    @Override
+    @Mapping(target = "movie", expression = "java(dto.getMovieId() == null ? null : new Movie().id(dto.getMovieId()))")
+    MovieResource toEntity(MovieResourceDTO dto);
 
-    @Named("movieId")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    MovieDTO toDtoMovieId(Movie movie);
+    @Override
+    @Mapping(target = "movieId", source = "movie.id")
+    MovieResourceDTO toDto(MovieResource entity);
+
+    @Override
+    @Mapping(target = "movie", expression = "java(dto.getMovieId() == null ? entity.getMovie() : new Movie().id(dto.getMovieId()))")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void partialUpdate(@MappingTarget MovieResource entity, MovieResourceDTO dto);
+
+    static Set<Long> entitiesToIdsSet(Set<MovieResource> entities) {
+        if (entities == null) {
+            return null;
+        }
+        return entities.stream().map(MovieResource::getId).collect(Collectors.toSet());
+    }
+
+    static Set<MovieResource> idsToEntitiesSet(Set<Long> ids) {
+        if (ids == null) {
+            return null;
+        }
+        return ids
+            .stream()
+            .map(id -> {
+                MovieResource entity = new MovieResource();
+                entity.setId(id);
+                return entity;
+            })
+            .collect(Collectors.toSet());
+    }
 }

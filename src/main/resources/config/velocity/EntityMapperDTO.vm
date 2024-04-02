@@ -1,0 +1,61 @@
+package com.nndmove.app.service.mapper;
+
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import com.nndmove.app.domain.${entityName};
+import com.nndmove.app.service.dto.${entityName}DTO;
+#foreach($field in $additionImports)
+import $field;
+#end
+
+@Mapper(componentModel = "spring")
+public interface ${entityName}Mapper extends EntityMapper<${entityName}DTO, ${entityName}> {
+    @Override
+#foreach($field in $nestFieldNameIds)
+    @Mapping(target = "${field.fieldName}", expression = "java(dto.${field.fieldNameGetter}Id() == null ? null : new ${field.className}().id(dto.${field.fieldNameGetter}Id()))")
+#end
+#foreach($element in $nestFieldNameJoinManyIds)
+    @Mapping(target = "${element.fieldName}", expression = "java(${element.entityName}Mapper.idsToEntitiesSet(dto.${element.fieldNameGetter}Ids()))")
+#end
+    ${entityName} toEntity(${entityName}DTO dto);
+
+    @Override
+#foreach($field in $nestFieldNameIds)
+    @Mapping(target = "${field.fieldName}Id", source = "${field.fieldName}.id")
+#end
+#foreach($element in $nestFieldNameJoinManyIds)
+    @Mapping(target = "${element.fieldName}Ids", expression = "java(${element.entityName}Mapper.entitiesToIdsSet(entity.${element.fieldNameGetter}()))")
+#end
+    ${entityName}DTO toDto(${entityName} entity);
+
+    @Override
+#foreach($field in $nestFieldNameIds)
+    @Mapping(target = "${field.fieldName}", expression = "java(dto.${field.fieldNameGetter}Id() == null ? entity.${field.fieldNameGetter}() : new ${field.className}().id(dto.${field.fieldNameGetter}Id()))")
+#end
+#foreach($element in $nestFieldNameJoinManyIds)
+    @Mapping(target = "${element.fieldName}", expression = "java(java.util.Optional.ofNullable(${element.entityName}Mapper.idsToEntitiesSet(dto.${element.fieldNameGetter}Ids())).orElse(entity.${element.fieldNameGetter}()))")
+#end
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void partialUpdate(@MappingTarget ${entityName} entity, ${entityName}DTO dto);
+
+    static Set<Long> entitiesToIdsSet(Set<${entityName}> entities) {
+        if (entities == null) {
+            return null;
+        }
+        return entities.stream().map(${entityName}::getId).collect(Collectors.toSet());
+    }
+
+    static Set<${entityName}> idsToEntitiesSet(Set<Long> ids) {
+        if (ids == null) {
+            return null;
+        }
+        return ids.stream().map(id -> {
+            ${entityName} entity = new ${entityName}();
+            entity.setId(id);
+            return entity;
+        }).collect(Collectors.toSet());
+    }
+}

@@ -1,29 +1,51 @@
 package com.nndmove.app.service.mapper;
 
-import com.nndmove.app.domain.Movie;
 import com.nndmove.app.domain.Playlist;
-import com.nndmove.app.domain.User;
-import com.nndmove.app.service.dto.MovieDTO;
 import com.nndmove.app.service.dto.PlaylistDTO;
-import com.nndmove.app.service.dto.UserDTO;
-import org.mapstruct.*;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-/**
- * Mapper for the entity {@link Playlist} and its DTO {@link PlaylistDTO}.
- */
 @Mapper(componentModel = "spring")
 public interface PlaylistMapper extends EntityMapper<PlaylistDTO, Playlist> {
-    @Mapping(target = "user", source = "user", qualifiedByName = "userId")
-    @Mapping(target = "movie", source = "movie", qualifiedByName = "movieId")
-    PlaylistDTO toDto(Playlist s);
+    @Override
+    @Mapping(target = "movie", expression = "java(dto.getMovieId() == null ? null : new Movie().id(dto.getMovieId()))")
+    @Mapping(target = "user", expression = "java(dto.getUserId() == null ? null : new User().id(dto.getUserId()))")
+    Playlist toEntity(PlaylistDTO dto);
 
-    @Named("userId")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    UserDTO toDtoUserId(User user);
+    @Override
+    @Mapping(target = "movieId", source = "movie.id")
+    @Mapping(target = "userId", source = "user.id")
+    PlaylistDTO toDto(Playlist entity);
 
-    @Named("movieId")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    MovieDTO toDtoMovieId(Movie movie);
+    @Override
+    @Mapping(target = "movie", expression = "java(dto.getMovieId() == null ? entity.getMovie() : new Movie().id(dto.getMovieId()))")
+    @Mapping(target = "user", expression = "java(dto.getUserId() == null ? entity.getUser() : new User().id(dto.getUserId()))")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void partialUpdate(@MappingTarget Playlist entity, PlaylistDTO dto);
+
+    static Set<Long> entitiesToIdsSet(Set<Playlist> entities) {
+        if (entities == null) {
+            return null;
+        }
+        return entities.stream().map(Playlist::getId).collect(Collectors.toSet());
+    }
+
+    static Set<Playlist> idsToEntitiesSet(Set<Long> ids) {
+        if (ids == null) {
+            return null;
+        }
+        return ids
+            .stream()
+            .map(id -> {
+                Playlist entity = new Playlist();
+                entity.setId(id);
+                return entity;
+            })
+            .collect(Collectors.toSet());
+    }
 }

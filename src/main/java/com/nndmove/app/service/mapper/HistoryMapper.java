@@ -1,29 +1,51 @@
 package com.nndmove.app.service.mapper;
 
 import com.nndmove.app.domain.History;
-import com.nndmove.app.domain.Movie;
-import com.nndmove.app.domain.User;
 import com.nndmove.app.service.dto.HistoryDTO;
-import com.nndmove.app.service.dto.MovieDTO;
-import com.nndmove.app.service.dto.UserDTO;
-import org.mapstruct.*;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-/**
- * Mapper for the entity {@link History} and its DTO {@link HistoryDTO}.
- */
 @Mapper(componentModel = "spring")
 public interface HistoryMapper extends EntityMapper<HistoryDTO, History> {
-    @Mapping(target = "user", source = "user", qualifiedByName = "userId")
-    @Mapping(target = "movie", source = "movie", qualifiedByName = "movieId")
-    HistoryDTO toDto(History s);
+    @Override
+    @Mapping(target = "movie", expression = "java(dto.getMovieId() == null ? null : new Movie().id(dto.getMovieId()))")
+    @Mapping(target = "user", expression = "java(dto.getUserId() == null ? null : new User().id(dto.getUserId()))")
+    History toEntity(HistoryDTO dto);
 
-    @Named("userId")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    UserDTO toDtoUserId(User user);
+    @Override
+    @Mapping(target = "movieId", source = "movie.id")
+    @Mapping(target = "userId", source = "user.id")
+    HistoryDTO toDto(History entity);
 
-    @Named("movieId")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    MovieDTO toDtoMovieId(Movie movie);
+    @Override
+    @Mapping(target = "movie", expression = "java(dto.getMovieId() == null ? entity.getMovie() : new Movie().id(dto.getMovieId()))")
+    @Mapping(target = "user", expression = "java(dto.getUserId() == null ? entity.getUser() : new User().id(dto.getUserId()))")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void partialUpdate(@MappingTarget History entity, HistoryDTO dto);
+
+    static Set<Long> entitiesToIdsSet(Set<History> entities) {
+        if (entities == null) {
+            return null;
+        }
+        return entities.stream().map(History::getId).collect(Collectors.toSet());
+    }
+
+    static Set<History> idsToEntitiesSet(Set<Long> ids) {
+        if (ids == null) {
+            return null;
+        }
+        return ids
+            .stream()
+            .map(id -> {
+                History entity = new History();
+                entity.setId(id);
+                return entity;
+            })
+            .collect(Collectors.toSet());
+    }
 }

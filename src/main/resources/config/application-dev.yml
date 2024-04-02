@@ -19,6 +19,7 @@ logging:
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.nndmove.app: DEBUG
+    org.springframework.cache: DEBUG
 
 spring:
   jpa:

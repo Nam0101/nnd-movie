@@ -1,146 +1,66 @@
 package com.nndmove.app.service.mapper;
 
-import com.nndmove.app.domain.Authority;
 import com.nndmove.app.domain.User;
-import com.nndmove.app.service.dto.AdminUserDTO;
 import com.nndmove.app.service.dto.UserDTO;
-import java.util.*;
+import java.time.Instant;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.springframework.stereotype.Service;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-/**
- * Mapper for the entity {@link User} and its DTO called {@link UserDTO}.
- *
- * Normal mappers are generated using MapStruct, this one is hand-coded as MapStruct
- * support is still in beta, and requires a manual step with an IDE.
- */
-@Service
-public class UserMapper {
+@Mapper(componentModel = "spring")
+public interface UserMapper extends EntityMapper<UserDTO, User> {
+    @Override
+    @Mapping(target = "resetDate", expression = "java(dto.getResetDateId() == null ? null : new Instant().id(dto.getResetDateId()))")
+    @Mapping(target = "authorities", expression = "java(AuthorityMapper.idsToEntitiesSet(dto.getAuthoritiesIdsIds()))")
+    User toEntity(UserDTO dto);
 
-    public List<UserDTO> usersToUserDTOs(List<User> users) {
-        return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).toList();
-    }
+    @Override
+    @Mapping(target = "resetDateId", source = "resetDate")
+    @Mapping(target = "authoritiesIds", expression = "java(AuthorityMapper.entitiesToIdsSet(entity.getAuthoritiesIds()))")
+    UserDTO toDto(User entity);
 
-    public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user);
-    }
+    @Override
+    @Mapping(
+        target = "resetDate",
+        expression = "java(dto.getResetDateId() == null ? entity.getResetDate() : new Instant().id(dto.getResetDateId()))"
+    )
+    @Mapping(
+        target = "authorities",
+        expression = "java(java.util.Optional.ofNullable(AuthorityMapper.idsToEntitiesSet(dto.getAuthoritiesIdsIds())).orElse(entity.getAuthoritiesIds()))"
+    )
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void partialUpdate(@MappingTarget User entity, UserDTO dto);
 
-    public List<AdminUserDTO> usersToAdminUserDTOs(List<User> users) {
-        return users.stream().filter(Objects::nonNull).map(this::userToAdminUserDTO).toList();
-    }
-
-    public AdminUserDTO userToAdminUserDTO(User user) {
-        return new AdminUserDTO(user);
-    }
-
-    public List<User> userDTOsToUsers(List<AdminUserDTO> userDTOs) {
-        return userDTOs.stream().filter(Objects::nonNull).map(this::userDTOToUser).toList();
-    }
-
-    public User userDTOToUser(AdminUserDTO userDTO) {
-        if (userDTO == null) {
-            return null;
-        } else {
-            User user = new User();
-            user.setId(userDTO.getId());
-            user.setLogin(userDTO.getLogin());
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
-            user.setEmail(userDTO.getEmail());
-            user.setImageUrl(userDTO.getImageUrl());
-            user.setActivated(userDTO.isActivated());
-            user.setLangKey(userDTO.getLangKey());
-            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
-            user.setAuthorities(authorities);
-            return user;
-        }
-    }
-
-    private Set<Authority> authoritiesFromStrings(Set<String> authoritiesAsString) {
-        Set<Authority> authorities = new HashSet<>();
-
-        if (authoritiesAsString != null) {
-            authorities = authoritiesAsString
-                .stream()
-                .map(string -> {
-                    Authority auth = new Authority();
-                    auth.setName(string);
-                    return auth;
-                })
-                .collect(Collectors.toSet());
-        }
-
-        return authorities;
-    }
-
-    public User userFromId(Long id) {
-        if (id == null) {
+    static Set<Long> entitiesToIdsSet(Set<User> entities) {
+        if (entities == null) {
             return null;
         }
-        User user = new User();
-        user.setId(id);
-        return user;
+        return entities.stream().map(User::getId).collect(Collectors.toSet());
     }
 
-    @Named("id")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    public UserDTO toDtoId(User user) {
-        if (user == null) {
+    default Long map(Instant value) {
+        return value == null ? null : value.toEpochMilli();
+    }
+
+    default Instant map(Long value) {
+        return value == null ? null : Instant.ofEpochMilli(value);
+    }
+
+    static Set<User> idsToEntitiesSet(Set<Long> ids) {
+        if (ids == null) {
             return null;
         }
-        UserDTO userDto = new UserDTO();
-        userDto.setId(user.getId());
-        return userDto;
-    }
-
-    @Named("idSet")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    public Set<UserDTO> toDtoIdSet(Set<User> users) {
-        if (users == null) {
-            return Collections.emptySet();
-        }
-
-        Set<UserDTO> userSet = new HashSet<>();
-        for (User userEntity : users) {
-            userSet.add(this.toDtoId(userEntity));
-        }
-
-        return userSet;
-    }
-
-    @Named("login")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "login", source = "login")
-    public UserDTO toDtoLogin(User user) {
-        if (user == null) {
-            return null;
-        }
-        UserDTO userDto = new UserDTO();
-        userDto.setId(user.getId());
-        userDto.setLogin(user.getLogin());
-        return userDto;
-    }
-
-    @Named("loginSet")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "login", source = "login")
-    public Set<UserDTO> toDtoLoginSet(Set<User> users) {
-        if (users == null) {
-            return Collections.emptySet();
-        }
-
-        Set<UserDTO> userSet = new HashSet<>();
-        for (User userEntity : users) {
-            userSet.add(this.toDtoLogin(userEntity));
-        }
-
-        return userSet;
+        return ids
+            .stream()
+            .map(id -> {
+                User entity = new User();
+                entity.setId(id);
+                return entity;
+            })
+            .collect(Collectors.toSet());
     }
 }
