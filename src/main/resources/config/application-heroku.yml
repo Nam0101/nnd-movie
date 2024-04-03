@@ -19,10 +19,12 @@ eureka:
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: jdbc:postgresql://ep-tight-pond-a1243jsz-pooler.ap-southeast-1.aws.neon.tech/movieDB
+    username: movie_owner
+    password: 0nk6dCKAJNPt
     hikari:
-      maximumPoolSize: 8
+      poolName: Hikari
+      auto-commit: false
+      maximum-pool-size: 10
 server:
   port: ${PORT:8080}
