@@ -7,11 +7,13 @@
   "fields": [
     {
       "fieldName": "part",
-      "fieldType": "Integer"
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "stopTime",
-      "fieldType": "Integer"
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
     }
   ],
   "name": "History",
@@ -22,7 +24,8 @@
       "otherEntityName": "user",
       "relationshipName": "user",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
     },
     {
       "otherEntityField": "id",

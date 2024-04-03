@@ -4,6 +4,8 @@ import com.nndmove.app.repository.HistoryRepository;
 import com.nndmove.app.service.HistoryService;
 import com.nndmove.app.service.dto.HistoryDTO;
 import com.nndmove.app.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -53,7 +55,7 @@ public class HistoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<HistoryDTO> createHistory(@RequestBody HistoryDTO historyDTO) throws URISyntaxException {
+    public ResponseEntity<HistoryDTO> createHistory(@Valid @RequestBody HistoryDTO historyDTO) throws URISyntaxException {
         log.debug("REST request to save History : {}", historyDTO);
         if (historyDTO.getId() != null) {
             throw new BadRequestAlertException("A new history cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +79,7 @@ public class HistoryResource {
     @PutMapping("/{id}")
     public ResponseEntity<HistoryDTO> updateHistory(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody HistoryDTO historyDTO
+        @Valid @RequestBody HistoryDTO historyDTO
     ) throws URISyntaxException {
         log.debug("REST request to update History : {}, {}", id, historyDTO);
         if (historyDTO.getId() == null) {
@@ -111,7 +113,7 @@ public class HistoryResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<HistoryDTO> partialUpdateHistory(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody HistoryDTO historyDTO
+        @NotNull @RequestBody HistoryDTO historyDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update History partially : {}, {}", id, historyDTO);
         if (historyDTO.getId() == null) {

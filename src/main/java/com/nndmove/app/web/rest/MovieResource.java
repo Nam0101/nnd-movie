@@ -4,6 +4,8 @@ import com.nndmove.app.repository.MovieRepository;
 import com.nndmove.app.service.MovieService;
 import com.nndmove.app.service.dto.MovieDTO;
 import com.nndmove.app.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -53,7 +55,7 @@ public class MovieResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO movieDTO) throws URISyntaxException {
+    public ResponseEntity<MovieDTO> createMovie(@Valid @RequestBody MovieDTO movieDTO) throws URISyntaxException {
         log.debug("REST request to save Movie : {}", movieDTO);
         if (movieDTO.getId() != null) {
             throw new BadRequestAlertException("A new movie cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +79,7 @@ public class MovieResource {
     @PutMapping("/{id}")
     public ResponseEntity<MovieDTO> updateMovie(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody MovieDTO movieDTO
+        @Valid @RequestBody MovieDTO movieDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Movie : {}, {}", id, movieDTO);
         if (movieDTO.getId() == null) {
@@ -111,7 +113,7 @@ public class MovieResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<MovieDTO> partialUpdateMovie(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody MovieDTO movieDTO
+        @NotNull @RequestBody MovieDTO movieDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Movie partially : {}, {}", id, movieDTO);
         if (movieDTO.getId() == null) {
@@ -137,12 +139,21 @@ public class MovieResource {
      * {@code GET  /movies} : get all the movies.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of movies in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<MovieDTO>> getAllMovies(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<MovieDTO>> getAllMovies(
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
+    ) {
         log.debug("REST request to get a page of Movies");
-        Page<MovieDTO> page = movieService.findAll(pageable);
+        Page<MovieDTO> page;
+        if (eagerload) {
+            page = movieService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = movieService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

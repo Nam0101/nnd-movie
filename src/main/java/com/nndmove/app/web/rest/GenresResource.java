@@ -4,6 +4,8 @@ import com.nndmove.app.repository.GenresRepository;
 import com.nndmove.app.service.GenresService;
 import com.nndmove.app.service.dto.GenresDTO;
 import com.nndmove.app.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -53,7 +55,7 @@ public class GenresResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<GenresDTO> createGenres(@RequestBody GenresDTO genresDTO) throws URISyntaxException {
+    public ResponseEntity<GenresDTO> createGenres(@Valid @RequestBody GenresDTO genresDTO) throws URISyntaxException {
         log.debug("REST request to save Genres : {}", genresDTO);
         if (genresDTO.getId() != null) {
             throw new BadRequestAlertException("A new genres cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +79,7 @@ public class GenresResource {
     @PutMapping("/{id}")
     public ResponseEntity<GenresDTO> updateGenres(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody GenresDTO genresDTO
+        @Valid @RequestBody GenresDTO genresDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Genres : {}, {}", id, genresDTO);
         if (genresDTO.getId() == null) {
@@ -111,7 +113,7 @@ public class GenresResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<GenresDTO> partialUpdateGenres(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody GenresDTO genresDTO
+        @NotNull @RequestBody GenresDTO genresDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Genres partially : {}, {}", id, genresDTO);
         if (genresDTO.getId() == null) {

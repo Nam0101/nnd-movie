@@ -1,7 +1,10 @@
 package com.nndmove.app.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.Genres} entity.
@@ -11,7 +14,10 @@ public class GenresDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private String genres;
+
+    private Set<MovieDTO> movies = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -27,6 +33,14 @@ public class GenresDTO implements Serializable {
 
     public void setGenres(String genres) {
         this.genres = genres;
+    }
+
+    public Set<MovieDTO> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<MovieDTO> movies) {
+        this.movies = movies;
     }
 
     @Override
@@ -56,6 +70,7 @@ public class GenresDTO implements Serializable {
         return "GenresDTO{" +
             "id=" + getId() +
             ", genres='" + getGenres() + "'" +
+            ", movies=" + getMovies() +
             "}";
     }
 }

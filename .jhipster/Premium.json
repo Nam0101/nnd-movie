@@ -6,12 +6,14 @@
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "startDate",
-      "fieldType": "Instant"
+      "fieldName": "startTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "endDate",
-      "fieldType": "Instant"
+      "fieldName": "endTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
     }
   ],
   "name": "Premium",
@@ -22,7 +24,8 @@
       "otherEntityName": "user",
       "relationshipName": "user",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
     }
   ],
   "searchEngine": "no",

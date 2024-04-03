@@ -1,7 +1,8 @@
 package com.nndmove.app.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -12,9 +13,11 @@ public class PremiumDTO implements Serializable {
 
     private Long id;
 
-    private Instant startDate;
+    @NotNull
+    private ZonedDateTime startTime;
 
-    private Instant endDate;
+    @NotNull
+    private ZonedDateTime endTime;
 
     private UserDTO user;
 
@@ -26,20 +29,20 @@ public class PremiumDTO implements Serializable {
         this.id = id;
     }
 
-    public Instant getStartDate() {
-        return startDate;
+    public ZonedDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setStartDate(Instant startDate) {
-        this.startDate = startDate;
+    public void setStartTime(ZonedDateTime startTime) {
+        this.startTime = startTime;
     }
 
-    public Instant getEndDate() {
-        return endDate;
+    public ZonedDateTime getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(Instant endDate) {
-        this.endDate = endDate;
+    public void setEndTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public UserDTO getUser() {
@@ -76,8 +79,8 @@ public class PremiumDTO implements Serializable {
     public String toString() {
         return "PremiumDTO{" +
             "id=" + getId() +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
+            ", startTime='" + getStartTime() + "'" +
+            ", endTime='" + getEndTime() + "'" +
             ", user=" + getUser() +
             "}";
     }

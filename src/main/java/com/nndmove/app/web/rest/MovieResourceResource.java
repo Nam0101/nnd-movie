@@ -4,6 +4,8 @@ import com.nndmove.app.repository.MovieResourceRepository;
 import com.nndmove.app.service.MovieResourceService;
 import com.nndmove.app.service.dto.MovieResourceDTO;
 import com.nndmove.app.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -53,7 +55,8 @@ public class MovieResourceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<MovieResourceDTO> createMovieResource(@RequestBody MovieResourceDTO movieResourceDTO) throws URISyntaxException {
+    public ResponseEntity<MovieResourceDTO> createMovieResource(@Valid @RequestBody MovieResourceDTO movieResourceDTO)
+        throws URISyntaxException {
         log.debug("REST request to save MovieResource : {}", movieResourceDTO);
         if (movieResourceDTO.getId() != null) {
             throw new BadRequestAlertException("A new movieResource cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +80,7 @@ public class MovieResourceResource {
     @PutMapping("/{id}")
     public ResponseEntity<MovieResourceDTO> updateMovieResource(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody MovieResourceDTO movieResourceDTO
+        @Valid @RequestBody MovieResourceDTO movieResourceDTO
     ) throws URISyntaxException {
         log.debug("REST request to update MovieResource : {}, {}", id, movieResourceDTO);
         if (movieResourceDTO.getId() == null) {
@@ -111,7 +114,7 @@ public class MovieResourceResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<MovieResourceDTO> partialUpdateMovieResource(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody MovieResourceDTO movieResourceDTO
+        @NotNull @RequestBody MovieResourceDTO movieResourceDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update MovieResource partially : {}, {}", id, movieResourceDTO);
         if (movieResourceDTO.getId() == null) {

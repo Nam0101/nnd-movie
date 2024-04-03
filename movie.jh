@@ -1,102 +1,88 @@
 application {
     config {
         applicationType monolith
-        authenticationType	jwt
-        databaseType	sql
-        devDatabaseType	postgresql
-        enableHibernateCache	true
-        enableSwaggerCodegen	true
-        enableTranslation	false
-        jhiPrefix	movie
-        languages	[vi]
-        messageBroker	false
-        nativeLanguage	vi
+        authenticationType jwt
+        databaseType sql
+        devDatabaseType postgresql
+        enableHibernateCache true
+        enableSwaggerCodegen true
+        enableTranslation false
+        jhiPrefix movie
+        languages [vi]
+        messageBroker false
+        nativeLanguage vi
         prodDatabaseType postgresql
         searchEngine false
         skipClient true
         cacheProvider redis
     }
     entities *
-    dto *  with mapstruct
+    dto * with mapstruct
     service * with serviceClass
     paginate * with pagination
 }
-entity User {
-  username String,
-  passwordHash String,
-  firstName String,
-  lastName String,
-  email String,
-  activated Boolean,
-  langKey String,
-  imageUrl String,
-  activationKey String,
-  resetKey String,
-  resetDate Instant
-}
+
 entity Premium {
-  startDate Instant,
-  endDate Instant
+  startTime ZonedDateTime required,
+  endTime ZonedDateTime required
 }
 
 entity Payment {
-  paymentTime Long,
-  paymentPrice Long,
-  paymentMethod String
+  paymentTime Long required,
+  paymentPrice Long required,
+  paymentMethod String required,
+  status String required,
+  transactionId String required
 }
 
 entity Movie {
-  name String,
-  originName String,
-  isCompleted Boolean,
-  slug String,
-  episodeCurrent String,
-  episodeTotal Integer,
-  quality String,
-  year Integer,
+  name String required,
+  originName String required,
+  isCompleted Boolean required,
+  slug String required,
+  episodeCurrent String required,
+  episodeTotal Integer required,
+  quality String required,
+  year Integer required,
   trailerUrl String,
   time String,
   content String,
-  isSingle Boolean,
+  isSingle Boolean required,
   thumbUrl String,
   posterUrl String,
-  actor String,
+  actors String,
   country String,
-  premiumOnly Boolean
+  premiumOnly Boolean required
 }
 
 entity Genres {
-  genres String
-}
-
-entity MovieGenres {
+  genres String required
 }
 
 entity MovieResource {
-  part Integer,
-  linkEmbed String,
-  linkM3u8 String
+  part Integer required,
+  linkEmbed String required,
+  linkM3u8 String required
 }
 
 entity History {
-  part Integer,
-  stopTime Integer
+  part Integer required,
+  stopTime Integer required
 }
 
 entity Playlist {
 }
 
+relationship ManyToMany {
+  Movie{genres(id)} to Genres{movie}
+}
 
 relationship ManyToOne {
-  Premium{user(id)} to User,
-  Payment{user(id)} to User,
-  History{user(id)} to User,
-  Playlist{user(id)} to User,
+  Premium{user(id)} to User with builtInEntity,
+  Payment{user(id)} to User with builtInEntity,
+  History{user(id)} to User with builtInEntity,
+  Playlist{user(id)} to User with builtInEntity,
   MovieResource{movie(id)} to Movie,
-  MovieGenres{movie(id)} to Movie,
-  MovieGenres{genres(id)} to Genres,
   History{movie(id)} to Movie,
   Playlist{movie(id)} to Movie
 }
-
-paginate Premium, Payment, Movie, Genres, MovieGenres, MovieResource, History, Playlist with pagination

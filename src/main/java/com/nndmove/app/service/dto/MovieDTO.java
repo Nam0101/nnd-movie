@@ -1,7 +1,10 @@
 package com.nndmove.app.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.Movie} entity.
@@ -11,20 +14,28 @@ public class MovieDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String originName;
 
+    @NotNull
     private Boolean isCompleted;
 
+    @NotNull
     private String slug;
 
+    @NotNull
     private String episodeCurrent;
 
+    @NotNull
     private Integer episodeTotal;
 
+    @NotNull
     private String quality;
 
+    @NotNull
     private Integer year;
 
     private String trailerUrl;
@@ -33,17 +44,21 @@ public class MovieDTO implements Serializable {
 
     private String content;
 
+    @NotNull
     private Boolean isSingle;
 
     private String thumbUrl;
 
     private String posterUrl;
 
-    private String actor;
+    private String actors;
 
     private String country;
 
+    @NotNull
     private Boolean premiumOnly;
+
+    private Set<GenresDTO> genres = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -165,12 +180,12 @@ public class MovieDTO implements Serializable {
         this.posterUrl = posterUrl;
     }
 
-    public String getActor() {
-        return actor;
+    public String getActors() {
+        return actors;
     }
 
-    public void setActor(String actor) {
-        this.actor = actor;
+    public void setActors(String actors) {
+        this.actors = actors;
     }
 
     public String getCountry() {
@@ -187,6 +202,14 @@ public class MovieDTO implements Serializable {
 
     public void setPremiumOnly(Boolean premiumOnly) {
         this.premiumOnly = premiumOnly;
+    }
+
+    public Set<GenresDTO> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<GenresDTO> genres) {
+        this.genres = genres;
     }
 
     @Override
@@ -229,9 +252,10 @@ public class MovieDTO implements Serializable {
             ", isSingle='" + getIsSingle() + "'" +
             ", thumbUrl='" + getThumbUrl() + "'" +
             ", posterUrl='" + getPosterUrl() + "'" +
-            ", actor='" + getActor() + "'" +
+            ", actors='" + getActors() + "'" +
             ", country='" + getCountry() + "'" +
             ", premiumOnly='" + getPremiumOnly() + "'" +
+            ", genres=" + getGenres() +
             "}";
     }
 }

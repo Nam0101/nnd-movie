@@ -14,19 +14,19 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="start_date" type="${datetimeType}">
-                <constraints nullable="true" />
+            <column name="start_time" type="${datetimeType}">
+                <constraints nullable="false" />
             </column>
-            <column name="end_date" type="${datetimeType}">
-                <constraints nullable="true" />
+            <column name="end_time" type="${datetimeType}">
+                <constraints nullable="false" />
             </column>
             <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="premium" columnName="start_date" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="premium" columnName="end_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="premium" columnName="start_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="premium" columnName="end_time" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -46,8 +46,8 @@
                   tableName="premium"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="start_date" type="date"/>
-            <column name="end_date" type="date"/>
+            <column name="start_time" type="date"/>
+            <column name="end_time" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

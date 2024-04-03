@@ -1,5 +1,6 @@
 package com.nndmove.app.domain;
 
+import static com.nndmove.app.domain.AssertUtils.zonedDataTimeSameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PremiumAsserts {
@@ -47,8 +48,16 @@ public class PremiumAsserts {
     public static void assertPremiumUpdatableFieldsEquals(Premium expected, Premium actual) {
         assertThat(expected)
             .as("Verify Premium relevant properties")
-            .satisfies(e -> assertThat(e.getStartDate()).as("check startDate").isEqualTo(actual.getStartDate()))
-            .satisfies(e -> assertThat(e.getEndDate()).as("check endDate").isEqualTo(actual.getEndDate()));
+            .satisfies(
+                e ->
+                    assertThat(e.getStartTime())
+                        .as("check startTime")
+                        .usingComparator(zonedDataTimeSameInstant)
+                        .isEqualTo(actual.getStartTime())
+            )
+            .satisfies(
+                e -> assertThat(e.getEndTime()).as("check endTime").usingComparator(zonedDataTimeSameInstant).isEqualTo(actual.getEndTime())
+            );
     }
 
     /**

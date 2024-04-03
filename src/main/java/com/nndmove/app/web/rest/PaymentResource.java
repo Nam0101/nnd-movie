@@ -4,6 +4,8 @@ import com.nndmove.app.repository.PaymentRepository;
 import com.nndmove.app.service.PaymentService;
 import com.nndmove.app.service.dto.PaymentDTO;
 import com.nndmove.app.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -53,7 +55,7 @@ public class PaymentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<PaymentDTO> createPayment(@RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
+    public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to save Payment : {}", paymentDTO);
         if (paymentDTO.getId() != null) {
             throw new BadRequestAlertException("A new payment cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +79,7 @@ public class PaymentResource {
     @PutMapping("/{id}")
     public ResponseEntity<PaymentDTO> updatePayment(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody PaymentDTO paymentDTO
+        @Valid @RequestBody PaymentDTO paymentDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Payment : {}, {}", id, paymentDTO);
         if (paymentDTO.getId() == null) {
@@ -111,7 +113,7 @@ public class PaymentResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<PaymentDTO> partialUpdatePayment(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody PaymentDTO paymentDTO
+        @NotNull @RequestBody PaymentDTO paymentDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Payment partially : {}, {}", id, paymentDTO);
         if (paymentDTO.getId() == null) {

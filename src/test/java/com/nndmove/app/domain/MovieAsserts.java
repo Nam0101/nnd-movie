@@ -61,7 +61,7 @@ public class MovieAsserts {
             .satisfies(e -> assertThat(e.getIsSingle()).as("check isSingle").isEqualTo(actual.getIsSingle()))
             .satisfies(e -> assertThat(e.getThumbUrl()).as("check thumbUrl").isEqualTo(actual.getThumbUrl()))
             .satisfies(e -> assertThat(e.getPosterUrl()).as("check posterUrl").isEqualTo(actual.getPosterUrl()))
-            .satisfies(e -> assertThat(e.getActor()).as("check actor").isEqualTo(actual.getActor()))
+            .satisfies(e -> assertThat(e.getActors()).as("check actors").isEqualTo(actual.getActors()))
             .satisfies(e -> assertThat(e.getCountry()).as("check country").isEqualTo(actual.getCountry()))
             .satisfies(e -> assertThat(e.getPremiumOnly()).as("check premiumOnly").isEqualTo(actual.getPremiumOnly()));
     }
@@ -72,5 +72,9 @@ public class MovieAsserts {
      * @param expected the expected entity
      * @param actual the actual entity
      */
-    public static void assertMovieUpdatableRelationshipsEquals(Movie expected, Movie actual) {}
+    public static void assertMovieUpdatableRelationshipsEquals(Movie expected, Movie actual) {
+        assertThat(expected)
+            .as("Verify Movie relationships")
+            .satisfies(e -> assertThat(e.getGenres()).as("check genres").isEqualTo(actual.getGenres()));
+    }
 }

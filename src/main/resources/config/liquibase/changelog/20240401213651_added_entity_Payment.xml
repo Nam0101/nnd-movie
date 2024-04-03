@@ -15,13 +15,19 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="payment_time" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="payment_price" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="payment_method" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="transaction_id" type="varchar(255)">
+                <constraints nullable="false" />
             </column>
             <column name="user_id" type="bigint">
                 <constraints nullable="true" />
@@ -50,6 +56,8 @@
             <column name="payment_time" type="numeric"/>
             <column name="payment_price" type="numeric"/>
             <column name="payment_method" type="string"/>
+            <column name="status" type="string"/>
+            <column name="transaction_id" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

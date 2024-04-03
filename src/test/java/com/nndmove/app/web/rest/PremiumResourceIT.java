@@ -2,6 +2,7 @@ package com.nndmove.app.web.rest;
 
 import static com.nndmove.app.domain.PremiumAsserts.*;
 import static com.nndmove.app.web.rest.TestUtil.createUpdateProxyForBean;
+import static com.nndmove.app.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -15,7 +16,9 @@ import com.nndmove.app.service.dto.PremiumDTO;
 import com.nndmove.app.service.mapper.PremiumMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,11 +38,11 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class PremiumResourceIT {
 
-    private static final Instant DEFAULT_START_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_START_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final ZonedDateTime DEFAULT_START_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_START_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final Instant DEFAULT_END_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final ZonedDateTime DEFAULT_END_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_END_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     private static final String ENTITY_API_URL = "/api/premiums";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -71,7 +74,7 @@ class PremiumResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Premium createEntity(EntityManager em) {
-        Premium premium = new Premium().startDate(DEFAULT_START_DATE).endDate(DEFAULT_END_DATE);
+        Premium premium = new Premium().startTime(DEFAULT_START_TIME).endTime(DEFAULT_END_TIME);
         return premium;
     }
 
@@ -82,7 +85,7 @@ class PremiumResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Premium createUpdatedEntity(EntityManager em) {
-        Premium premium = new Premium().startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE);
+        Premium premium = new Premium().startTime(UPDATED_START_TIME).endTime(UPDATED_END_TIME);
         return premium;
     }
 
@@ -133,6 +136,40 @@ class PremiumResourceIT {
 
     @Test
     @Transactional
+    void checkStartTimeIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        premium.setStartTime(null);
+
+        // Create the Premium, which fails.
+        PremiumDTO premiumDTO = premiumMapper.toDto(premium);
+
+        restPremiumMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(premiumDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEndTimeIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        premium.setEndTime(null);
+
+        // Create the Premium, which fails.
+        PremiumDTO premiumDTO = premiumMapper.toDto(premium);
+
+        restPremiumMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(premiumDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllPremiums() throws Exception {
         // Initialize the database
         premiumRepository.saveAndFlush(premium);
@@ -143,8 +180,8 @@ class PremiumResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(premium.getId().intValue())))
-            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
-            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())));
+            .andExpect(jsonPath("$.[*].startTime").value(hasItem(sameInstant(DEFAULT_START_TIME))))
+            .andExpect(jsonPath("$.[*].endTime").value(hasItem(sameInstant(DEFAULT_END_TIME))));
     }
 
     @Test
@@ -159,8 +196,8 @@ class PremiumResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(premium.getId().intValue()))
-            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
-            .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()));
+            .andExpect(jsonPath("$.startTime").value(sameInstant(DEFAULT_START_TIME)))
+            .andExpect(jsonPath("$.endTime").value(sameInstant(DEFAULT_END_TIME)));
     }
 
     @Test
@@ -182,7 +219,7 @@ class PremiumResourceIT {
         Premium updatedPremium = premiumRepository.findById(premium.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedPremium are not directly saved in db
         em.detach(updatedPremium);
-        updatedPremium.startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE);
+        updatedPremium.startTime(UPDATED_START_TIME).endTime(UPDATED_END_TIME);
         PremiumDTO premiumDTO = premiumMapper.toDto(updatedPremium);
 
         restPremiumMockMvc
@@ -294,7 +331,7 @@ class PremiumResourceIT {
         Premium partialUpdatedPremium = new Premium();
         partialUpdatedPremium.setId(premium.getId());
 
-        partialUpdatedPremium.startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE);
+        partialUpdatedPremium.startTime(UPDATED_START_TIME).endTime(UPDATED_END_TIME);
 
         restPremiumMockMvc
             .perform(

@@ -1,6 +1,8 @@
 package com.nndmove.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,16 +24,20 @@ public class MovieResource implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "part")
+    @NotNull
+    @Column(name = "part", nullable = false)
     private Integer part;
 
-    @Column(name = "link_embed")
+    @NotNull
+    @Column(name = "link_embed", nullable = false)
     private String linkEmbed;
 
-    @Column(name = "link_m_3_u_8")
+    @NotNull
+    @Column(name = "link_m_3_u_8", nullable = false)
     private String linkM3u8;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
     private Movie movie;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

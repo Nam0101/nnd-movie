@@ -1,6 +1,8 @@
 package com.nndmove.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,16 +24,19 @@ public class History implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "part")
+    @NotNull
+    @Column(name = "part", nullable = false)
     private Integer part;
 
-    @Column(name = "stop_time")
+    @NotNull
+    @Column(name = "stop_time", nullable = false)
     private Integer stopTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
     private Movie movie;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

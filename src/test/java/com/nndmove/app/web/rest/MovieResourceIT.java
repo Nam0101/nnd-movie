@@ -4,6 +4,7 @@ import static com.nndmove.app.domain.MovieAsserts.*;
 import static com.nndmove.app.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -11,15 +12,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nndmove.app.IntegrationTest;
 import com.nndmove.app.domain.Movie;
 import com.nndmove.app.repository.MovieRepository;
+import com.nndmove.app.service.MovieService;
 import com.nndmove.app.service.dto.MovieDTO;
 import com.nndmove.app.service.mapper.MovieMapper;
 import jakarta.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link MovieResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class MovieResourceIT {
@@ -75,8 +84,8 @@ class MovieResourceIT {
     private static final String DEFAULT_POSTER_URL = "AAAAAAAAAA";
     private static final String UPDATED_POSTER_URL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ACTOR = "AAAAAAAAAA";
-    private static final String UPDATED_ACTOR = "BBBBBBBBBB";
+    private static final String DEFAULT_ACTORS = "AAAAAAAAAA";
+    private static final String UPDATED_ACTORS = "BBBBBBBBBB";
 
     private static final String DEFAULT_COUNTRY = "AAAAAAAAAA";
     private static final String UPDATED_COUNTRY = "BBBBBBBBBB";
@@ -96,8 +105,14 @@ class MovieResourceIT {
     @Autowired
     private MovieRepository movieRepository;
 
+    @Mock
+    private MovieRepository movieRepositoryMock;
+
     @Autowired
     private MovieMapper movieMapper;
+
+    @Mock
+    private MovieService movieServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -129,7 +144,7 @@ class MovieResourceIT {
             .isSingle(DEFAULT_IS_SINGLE)
             .thumbUrl(DEFAULT_THUMB_URL)
             .posterUrl(DEFAULT_POSTER_URL)
-            .actor(DEFAULT_ACTOR)
+            .actors(DEFAULT_ACTORS)
             .country(DEFAULT_COUNTRY)
             .premiumOnly(DEFAULT_PREMIUM_ONLY);
         return movie;
@@ -157,7 +172,7 @@ class MovieResourceIT {
             .isSingle(UPDATED_IS_SINGLE)
             .thumbUrl(UPDATED_THUMB_URL)
             .posterUrl(UPDATED_POSTER_URL)
-            .actor(UPDATED_ACTOR)
+            .actors(UPDATED_ACTORS)
             .country(UPDATED_COUNTRY)
             .premiumOnly(UPDATED_PREMIUM_ONLY);
         return movie;
@@ -210,6 +225,176 @@ class MovieResourceIT {
 
     @Test
     @Transactional
+    void checkNameIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setName(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkOriginNameIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setOriginName(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkIsCompletedIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setIsCompleted(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSlugIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setSlug(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEpisodeCurrentIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setEpisodeCurrent(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEpisodeTotalIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setEpisodeTotal(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkQualityIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setQuality(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkYearIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setYear(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkIsSingleIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setIsSingle(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPremiumOnlyIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movie.setPremiumOnly(null);
+
+        // Create the Movie, which fails.
+        MovieDTO movieDTO = movieMapper.toDto(movie);
+
+        restMovieMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllMovies() throws Exception {
         // Initialize the database
         movieRepository.saveAndFlush(movie);
@@ -234,9 +419,26 @@ class MovieResourceIT {
             .andExpect(jsonPath("$.[*].isSingle").value(hasItem(DEFAULT_IS_SINGLE.booleanValue())))
             .andExpect(jsonPath("$.[*].thumbUrl").value(hasItem(DEFAULT_THUMB_URL)))
             .andExpect(jsonPath("$.[*].posterUrl").value(hasItem(DEFAULT_POSTER_URL)))
-            .andExpect(jsonPath("$.[*].actor").value(hasItem(DEFAULT_ACTOR)))
+            .andExpect(jsonPath("$.[*].actors").value(hasItem(DEFAULT_ACTORS)))
             .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
             .andExpect(jsonPath("$.[*].premiumOnly").value(hasItem(DEFAULT_PREMIUM_ONLY.booleanValue())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllMoviesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(movieServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restMovieMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(movieServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllMoviesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(movieServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restMovieMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(movieRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -265,7 +467,7 @@ class MovieResourceIT {
             .andExpect(jsonPath("$.isSingle").value(DEFAULT_IS_SINGLE.booleanValue()))
             .andExpect(jsonPath("$.thumbUrl").value(DEFAULT_THUMB_URL))
             .andExpect(jsonPath("$.posterUrl").value(DEFAULT_POSTER_URL))
-            .andExpect(jsonPath("$.actor").value(DEFAULT_ACTOR))
+            .andExpect(jsonPath("$.actors").value(DEFAULT_ACTORS))
             .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY))
             .andExpect(jsonPath("$.premiumOnly").value(DEFAULT_PREMIUM_ONLY.booleanValue()));
     }
@@ -304,7 +506,7 @@ class MovieResourceIT {
             .isSingle(UPDATED_IS_SINGLE)
             .thumbUrl(UPDATED_THUMB_URL)
             .posterUrl(UPDATED_POSTER_URL)
-            .actor(UPDATED_ACTOR)
+            .actors(UPDATED_ACTORS)
             .country(UPDATED_COUNTRY)
             .premiumOnly(UPDATED_PREMIUM_ONLY);
         MovieDTO movieDTO = movieMapper.toDto(updatedMovie);
@@ -445,7 +647,7 @@ class MovieResourceIT {
             .isSingle(UPDATED_IS_SINGLE)
             .thumbUrl(UPDATED_THUMB_URL)
             .posterUrl(UPDATED_POSTER_URL)
-            .actor(UPDATED_ACTOR)
+            .actors(UPDATED_ACTORS)
             .country(UPDATED_COUNTRY)
             .premiumOnly(UPDATED_PREMIUM_ONLY);
 
