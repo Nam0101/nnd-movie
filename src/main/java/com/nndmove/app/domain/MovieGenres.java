@@ -1,5 +1,6 @@
 package com.nndmove.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
@@ -23,9 +24,11 @@ public class MovieGenres implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "movies" }, allowSetters = true)
     private Genres genres;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

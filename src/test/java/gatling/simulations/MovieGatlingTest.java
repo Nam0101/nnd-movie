@@ -91,7 +91,7 @@ public class MovieGatlingTest extends Simulation {
                                 ", \"isSingle\": null" +
                                 ", \"thumbUrl\": \"SAMPLE_TEXT\"" +
                                 ", \"posterUrl\": \"SAMPLE_TEXT\"" +
-                                ", \"actor\": \"SAMPLE_TEXT\"" +
+                                ", \"actors\": \"SAMPLE_TEXT\"" +
                                 ", \"country\": \"SAMPLE_TEXT\"" +
                                 ", \"premiumOnly\": null" +
                                 "}"

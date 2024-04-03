@@ -75,7 +75,15 @@ public class PaymentGatlingTest extends Simulation {
                         .post("/api/payments")
                         .headers(headers_http_authenticated)
                         .body(
-                            StringBody("{" + "\"paymentTime\": 0" + ", \"paymentPrice\": 0" + ", \"paymentMethod\": \"SAMPLE_TEXT\"" + "}")
+                            StringBody(
+                                "{" +
+                                "\"paymentTime\": 0" +
+                                ", \"paymentPrice\": 0" +
+                                ", \"paymentMethod\": \"SAMPLE_TEXT\"" +
+                                ", \"status\": \"SAMPLE_TEXT\"" +
+                                ", \"transactionId\": \"SAMPLE_TEXT\"" +
+                                "}"
+                            )
                         )
                         .asJson()
                         .check(status().is(201))

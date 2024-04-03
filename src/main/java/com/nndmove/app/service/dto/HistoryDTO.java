@@ -1,5 +1,6 @@
 package com.nndmove.app.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,8 +12,10 @@ public class HistoryDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private Integer part;
 
+    @NotNull
     private Integer stopTime;
 
     private UserDTO user;

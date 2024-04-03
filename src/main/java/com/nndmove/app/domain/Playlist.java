@@ -1,5 +1,6 @@
 package com.nndmove.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
@@ -26,6 +27,7 @@ public class Playlist implements Serializable {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
     private Movie movie;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

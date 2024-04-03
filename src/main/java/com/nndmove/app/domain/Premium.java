@@ -1,8 +1,9 @@
 package com.nndmove.app.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,11 +24,13 @@ public class Premium implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "start_date")
-    private Instant startDate;
+    @NotNull
+    @Column(name = "start_time", nullable = false)
+    private ZonedDateTime startTime;
 
-    @Column(name = "end_date")
-    private Instant endDate;
+    @NotNull
+    @Column(name = "end_time", nullable = false)
+    private ZonedDateTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -47,30 +50,30 @@ public class Premium implements Serializable {
         this.id = id;
     }
 
-    public Instant getStartDate() {
-        return this.startDate;
+    public ZonedDateTime getStartTime() {
+        return this.startTime;
     }
 
-    public Premium startDate(Instant startDate) {
-        this.setStartDate(startDate);
+    public Premium startTime(ZonedDateTime startTime) {
+        this.setStartTime(startTime);
         return this;
     }
 
-    public void setStartDate(Instant startDate) {
-        this.startDate = startDate;
+    public void setStartTime(ZonedDateTime startTime) {
+        this.startTime = startTime;
     }
 
-    public Instant getEndDate() {
-        return this.endDate;
+    public ZonedDateTime getEndTime() {
+        return this.endTime;
     }
 
-    public Premium endDate(Instant endDate) {
-        this.setEndDate(endDate);
+    public Premium endTime(ZonedDateTime endTime) {
+        this.setEndTime(endTime);
         return this;
     }
 
-    public void setEndDate(Instant endDate) {
-        this.endDate = endDate;
+    public void setEndTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public User getUser() {
@@ -110,8 +113,8 @@ public class Premium implements Serializable {
     public String toString() {
         return "Premium{" +
             "id=" + getId() +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
+            ", startTime='" + getStartTime() + "'" +
+            ", endTime='" + getEndTime() + "'" +
             "}";
     }
 }

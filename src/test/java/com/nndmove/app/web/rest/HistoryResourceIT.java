@@ -131,6 +131,40 @@ class HistoryResourceIT {
 
     @Test
     @Transactional
+    void checkPartIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        history.setPart(null);
+
+        // Create the History, which fails.
+        HistoryDTO historyDTO = historyMapper.toDto(history);
+
+        restHistoryMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(historyDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkStopTimeIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        history.setStopTime(null);
+
+        // Create the History, which fails.
+        HistoryDTO historyDTO = historyMapper.toDto(history);
+
+        restHistoryMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(historyDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllHistories() throws Exception {
         // Initialize the database
         historyRepository.saveAndFlush(history);

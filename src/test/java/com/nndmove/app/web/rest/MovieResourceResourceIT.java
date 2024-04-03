@@ -134,6 +134,57 @@ class MovieResourceResourceIT {
 
     @Test
     @Transactional
+    void checkPartIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movieResource.setPart(null);
+
+        // Create the MovieResource, which fails.
+        MovieResourceDTO movieResourceDTO = movieResourceMapper.toDto(movieResource);
+
+        restMovieResourceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieResourceDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkLinkEmbedIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movieResource.setLinkEmbed(null);
+
+        // Create the MovieResource, which fails.
+        MovieResourceDTO movieResourceDTO = movieResourceMapper.toDto(movieResource);
+
+        restMovieResourceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieResourceDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkLinkM3u8IsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        movieResource.setLinkM3u8(null);
+
+        // Create the MovieResource, which fails.
+        MovieResourceDTO movieResourceDTO = movieResourceMapper.toDto(movieResource);
+
+        restMovieResourceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(movieResourceDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllMovieResources() throws Exception {
         // Initialize the database
         movieResourceRepository.saveAndFlush(movieResource);

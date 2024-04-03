@@ -84,7 +84,9 @@ public class CacheConfiguration {
             createCache(cm, com.nndmove.app.domain.Premium.class.getName(), jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.Payment.class.getName(), jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.Movie.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.Movie.class.getName() + ".genres", jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.Genres.class.getName(), jcacheConfiguration);
+            createCache(cm, com.nndmove.app.domain.Genres.class.getName() + ".movies", jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.MovieGenres.class.getName(), jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.MovieResource.class.getName(), jcacheConfiguration);
             createCache(cm, com.nndmove.app.domain.History.class.getName(), jcacheConfiguration);

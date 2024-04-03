@@ -1,5 +1,6 @@
 package com.nndmove.app.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,11 +12,20 @@ public class PaymentDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private Long paymentTime;
 
+    @NotNull
     private Long paymentPrice;
 
+    @NotNull
     private String paymentMethod;
+
+    @NotNull
+    private String status;
+
+    @NotNull
+    private String transactionId;
 
     private UserDTO user;
 
@@ -49,6 +59,22 @@ public class PaymentDTO implements Serializable {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     public UserDTO getUser() {
@@ -88,6 +114,8 @@ public class PaymentDTO implements Serializable {
             ", paymentTime=" + getPaymentTime() +
             ", paymentPrice=" + getPaymentPrice() +
             ", paymentMethod='" + getPaymentMethod() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", transactionId='" + getTransactionId() + "'" +
             ", user=" + getUser() +
             "}";
     }

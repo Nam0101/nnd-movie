@@ -1,5 +1,6 @@
 package com.nndmove.app.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,10 +12,13 @@ public class MovieResourceDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private Integer part;
 
+    @NotNull
     private String linkEmbed;
 
+    @NotNull
     private String linkM3u8;
 
     private MovieDTO movie;

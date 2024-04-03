@@ -49,7 +49,9 @@ public class PaymentAsserts {
             .as("Verify Payment relevant properties")
             .satisfies(e -> assertThat(e.getPaymentTime()).as("check paymentTime").isEqualTo(actual.getPaymentTime()))
             .satisfies(e -> assertThat(e.getPaymentPrice()).as("check paymentPrice").isEqualTo(actual.getPaymentPrice()))
-            .satisfies(e -> assertThat(e.getPaymentMethod()).as("check paymentMethod").isEqualTo(actual.getPaymentMethod()));
+            .satisfies(e -> assertThat(e.getPaymentMethod()).as("check paymentMethod").isEqualTo(actual.getPaymentMethod()))
+            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()))
+            .satisfies(e -> assertThat(e.getTransactionId()).as("check transactionId").isEqualTo(actual.getTransactionId()));
     }
 
     /**

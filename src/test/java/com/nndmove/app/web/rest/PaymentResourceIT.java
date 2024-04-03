@@ -42,6 +42,12 @@ class PaymentResourceIT {
     private static final String DEFAULT_PAYMENT_METHOD = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_METHOD = "BBBBBBBBBB";
 
+    private static final String DEFAULT_STATUS = "AAAAAAAAAA";
+    private static final String UPDATED_STATUS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TRANSACTION_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TRANSACTION_ID = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/payments";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -75,7 +81,9 @@ class PaymentResourceIT {
         Payment payment = new Payment()
             .paymentTime(DEFAULT_PAYMENT_TIME)
             .paymentPrice(DEFAULT_PAYMENT_PRICE)
-            .paymentMethod(DEFAULT_PAYMENT_METHOD);
+            .paymentMethod(DEFAULT_PAYMENT_METHOD)
+            .status(DEFAULT_STATUS)
+            .transactionId(DEFAULT_TRANSACTION_ID);
         return payment;
     }
 
@@ -89,7 +97,9 @@ class PaymentResourceIT {
         Payment payment = new Payment()
             .paymentTime(UPDATED_PAYMENT_TIME)
             .paymentPrice(UPDATED_PAYMENT_PRICE)
-            .paymentMethod(UPDATED_PAYMENT_METHOD);
+            .paymentMethod(UPDATED_PAYMENT_METHOD)
+            .status(UPDATED_STATUS)
+            .transactionId(UPDATED_TRANSACTION_ID);
         return payment;
     }
 
@@ -140,6 +150,91 @@ class PaymentResourceIT {
 
     @Test
     @Transactional
+    void checkPaymentTimeIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        payment.setPaymentTime(null);
+
+        // Create the Payment, which fails.
+        PaymentDTO paymentDTO = paymentMapper.toDto(payment);
+
+        restPaymentMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(paymentDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPaymentPriceIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        payment.setPaymentPrice(null);
+
+        // Create the Payment, which fails.
+        PaymentDTO paymentDTO = paymentMapper.toDto(payment);
+
+        restPaymentMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(paymentDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPaymentMethodIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        payment.setPaymentMethod(null);
+
+        // Create the Payment, which fails.
+        PaymentDTO paymentDTO = paymentMapper.toDto(payment);
+
+        restPaymentMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(paymentDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkStatusIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        payment.setStatus(null);
+
+        // Create the Payment, which fails.
+        PaymentDTO paymentDTO = paymentMapper.toDto(payment);
+
+        restPaymentMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(paymentDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkTransactionIdIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        payment.setTransactionId(null);
+
+        // Create the Payment, which fails.
+        PaymentDTO paymentDTO = paymentMapper.toDto(payment);
+
+        restPaymentMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(paymentDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllPayments() throws Exception {
         // Initialize the database
         paymentRepository.saveAndFlush(payment);
@@ -152,7 +247,9 @@ class PaymentResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(payment.getId().intValue())))
             .andExpect(jsonPath("$.[*].paymentTime").value(hasItem(DEFAULT_PAYMENT_TIME.intValue())))
             .andExpect(jsonPath("$.[*].paymentPrice").value(hasItem(DEFAULT_PAYMENT_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].paymentMethod").value(hasItem(DEFAULT_PAYMENT_METHOD)));
+            .andExpect(jsonPath("$.[*].paymentMethod").value(hasItem(DEFAULT_PAYMENT_METHOD)))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
+            .andExpect(jsonPath("$.[*].transactionId").value(hasItem(DEFAULT_TRANSACTION_ID)));
     }
 
     @Test
@@ -169,7 +266,9 @@ class PaymentResourceIT {
             .andExpect(jsonPath("$.id").value(payment.getId().intValue()))
             .andExpect(jsonPath("$.paymentTime").value(DEFAULT_PAYMENT_TIME.intValue()))
             .andExpect(jsonPath("$.paymentPrice").value(DEFAULT_PAYMENT_PRICE.intValue()))
-            .andExpect(jsonPath("$.paymentMethod").value(DEFAULT_PAYMENT_METHOD));
+            .andExpect(jsonPath("$.paymentMethod").value(DEFAULT_PAYMENT_METHOD))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
+            .andExpect(jsonPath("$.transactionId").value(DEFAULT_TRANSACTION_ID));
     }
 
     @Test
@@ -191,7 +290,12 @@ class PaymentResourceIT {
         Payment updatedPayment = paymentRepository.findById(payment.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedPayment are not directly saved in db
         em.detach(updatedPayment);
-        updatedPayment.paymentTime(UPDATED_PAYMENT_TIME).paymentPrice(UPDATED_PAYMENT_PRICE).paymentMethod(UPDATED_PAYMENT_METHOD);
+        updatedPayment
+            .paymentTime(UPDATED_PAYMENT_TIME)
+            .paymentPrice(UPDATED_PAYMENT_PRICE)
+            .paymentMethod(UPDATED_PAYMENT_METHOD)
+            .status(UPDATED_STATUS)
+            .transactionId(UPDATED_TRANSACTION_ID);
         PaymentDTO paymentDTO = paymentMapper.toDto(updatedPayment);
 
         restPaymentMockMvc
@@ -277,7 +381,12 @@ class PaymentResourceIT {
         Payment partialUpdatedPayment = new Payment();
         partialUpdatedPayment.setId(payment.getId());
 
-        partialUpdatedPayment.paymentTime(UPDATED_PAYMENT_TIME).paymentPrice(UPDATED_PAYMENT_PRICE).paymentMethod(UPDATED_PAYMENT_METHOD);
+        partialUpdatedPayment
+            .paymentTime(UPDATED_PAYMENT_TIME)
+            .paymentPrice(UPDATED_PAYMENT_PRICE)
+            .paymentMethod(UPDATED_PAYMENT_METHOD)
+            .status(UPDATED_STATUS)
+            .transactionId(UPDATED_TRANSACTION_ID);
 
         restPaymentMockMvc
             .perform(
@@ -305,7 +414,12 @@ class PaymentResourceIT {
         Payment partialUpdatedPayment = new Payment();
         partialUpdatedPayment.setId(payment.getId());
 
-        partialUpdatedPayment.paymentTime(UPDATED_PAYMENT_TIME).paymentPrice(UPDATED_PAYMENT_PRICE).paymentMethod(UPDATED_PAYMENT_METHOD);
+        partialUpdatedPayment
+            .paymentTime(UPDATED_PAYMENT_TIME)
+            .paymentPrice(UPDATED_PAYMENT_PRICE)
+            .paymentMethod(UPDATED_PAYMENT_METHOD)
+            .status(UPDATED_STATUS)
+            .transactionId(UPDATED_TRANSACTION_ID);
 
         restPaymentMockMvc
             .perform(

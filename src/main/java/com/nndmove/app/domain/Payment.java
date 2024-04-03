@@ -1,6 +1,7 @@
 package com.nndmove.app.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,14 +23,25 @@ public class Payment implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "payment_time")
+    @NotNull
+    @Column(name = "payment_time", nullable = false)
     private Long paymentTime;
 
-    @Column(name = "payment_price")
+    @NotNull
+    @Column(name = "payment_price", nullable = false)
     private Long paymentPrice;
 
-    @Column(name = "payment_method")
+    @NotNull
+    @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
+
+    @NotNull
+    @Column(name = "status", nullable = false)
+    private String status;
+
+    @NotNull
+    @Column(name = "transaction_id", nullable = false)
+    private String transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -88,6 +100,32 @@ public class Payment implements Serializable {
         this.paymentMethod = paymentMethod;
     }
 
+    public String getStatus() {
+        return this.status;
+    }
+
+    public Payment status(String status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTransactionId() {
+        return this.transactionId;
+    }
+
+    public Payment transactionId(String transactionId) {
+        this.setTransactionId(transactionId);
+        return this;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -128,6 +166,8 @@ public class Payment implements Serializable {
             ", paymentTime=" + getPaymentTime() +
             ", paymentPrice=" + getPaymentPrice() +
             ", paymentMethod='" + getPaymentMethod() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", transactionId='" + getTransactionId() + "'" +
             "}";
     }
 }

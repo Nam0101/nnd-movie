@@ -89,6 +89,15 @@ public class MovieService {
     }
 
     /**
+     * Get all the movies with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<MovieDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return movieRepository.findAllWithEagerRelationships(pageable).map(movieMapper::toDto);
+    }
+
+    /**
      * Get one movie by id.
      *
      * @param id the id of the entity.
@@ -97,7 +106,7 @@ public class MovieService {
     @Transactional(readOnly = true)
     public Optional<MovieDTO> findOne(Long id) {
         log.debug("Request to get Movie : {}", id);
-        return movieRepository.findById(id).map(movieMapper::toDto);
+        return movieRepository.findOneWithEagerRelationships(id).map(movieMapper::toDto);
     }
 
     /**

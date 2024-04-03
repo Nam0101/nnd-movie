@@ -56,5 +56,9 @@ public class GenresAsserts {
      * @param expected the expected entity
      * @param actual the actual entity
      */
-    public static void assertGenresUpdatableRelationshipsEquals(Genres expected, Genres actual) {}
+    public static void assertGenresUpdatableRelationshipsEquals(Genres expected, Genres actual) {
+        assertThat(expected)
+            .as("Verify Genres relationships")
+            .satisfies(e -> assertThat(e.getMovies()).as("check movies").isEqualTo(actual.getMovies()));
+    }
 }

@@ -22,6 +22,7 @@
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20240401213650_added_entity_constraints_Premium.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240401213651_added_entity_constraints_Payment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240401213652_added_entity_constraints_Movie.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240401213654_added_entity_constraints_MovieGenres.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240401213655_added_entity_constraints_MovieResource.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240401213656_added_entity_constraints_History.xml" relativeToChangelogFile="false"/>

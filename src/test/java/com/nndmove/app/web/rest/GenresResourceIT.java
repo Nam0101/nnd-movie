@@ -128,6 +128,23 @@ class GenresResourceIT {
 
     @Test
     @Transactional
+    void checkGenresIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        genres.setGenres(null);
+
+        // Create the Genres, which fails.
+        GenresDTO genresDTO = genresMapper.toDto(genres);
+
+        restGenresMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(genresDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllGenres() throws Exception {
         // Initialize the database
         genresRepository.saveAndFlush(genres);

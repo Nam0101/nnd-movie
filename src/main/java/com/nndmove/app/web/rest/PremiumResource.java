@@ -4,6 +4,8 @@ import com.nndmove.app.repository.PremiumRepository;
 import com.nndmove.app.service.PremiumService;
 import com.nndmove.app.service.dto.PremiumDTO;
 import com.nndmove.app.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -53,7 +55,7 @@ public class PremiumResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<PremiumDTO> createPremium(@RequestBody PremiumDTO premiumDTO) throws URISyntaxException {
+    public ResponseEntity<PremiumDTO> createPremium(@Valid @RequestBody PremiumDTO premiumDTO) throws URISyntaxException {
         log.debug("REST request to save Premium : {}", premiumDTO);
         if (premiumDTO.getId() != null) {
             throw new BadRequestAlertException("A new premium cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +79,7 @@ public class PremiumResource {
     @PutMapping("/{id}")
     public ResponseEntity<PremiumDTO> updatePremium(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody PremiumDTO premiumDTO
+        @Valid @RequestBody PremiumDTO premiumDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Premium : {}, {}", id, premiumDTO);
         if (premiumDTO.getId() == null) {
@@ -111,7 +113,7 @@ public class PremiumResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<PremiumDTO> partialUpdatePremium(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody PremiumDTO premiumDTO
+        @NotNull @RequestBody PremiumDTO premiumDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Premium partially : {}, {}", id, premiumDTO);
         if (premiumDTO.getId() == null) {

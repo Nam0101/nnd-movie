@@ -1,7 +1,11 @@
 package com.nndmove.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -22,28 +26,36 @@ public class Movie implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "origin_name")
+    @NotNull
+    @Column(name = "origin_name", nullable = false)
     private String originName;
 
-    @Column(name = "is_completed")
+    @NotNull
+    @Column(name = "is_completed", nullable = false)
     private Boolean isCompleted;
 
-    @Column(name = "slug")
+    @NotNull
+    @Column(name = "slug", nullable = false)
     private String slug;
 
-    @Column(name = "episode_current")
+    @NotNull
+    @Column(name = "episode_current", nullable = false)
     private String episodeCurrent;
 
-    @Column(name = "episode_total")
+    @NotNull
+    @Column(name = "episode_total", nullable = false)
     private Integer episodeTotal;
 
-    @Column(name = "quality")
+    @NotNull
+    @Column(name = "quality", nullable = false)
     private String quality;
 
-    @Column(name = "year")
+    @NotNull
+    @Column(name = "year", nullable = false)
     private Integer year;
 
     @Column(name = "trailer_url")
@@ -55,7 +67,8 @@ public class Movie implements Serializable {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "is_single")
+    @NotNull
+    @Column(name = "is_single", nullable = false)
     private Boolean isSingle;
 
     @Column(name = "thumb_url")
@@ -64,14 +77,25 @@ public class Movie implements Serializable {
     @Column(name = "poster_url")
     private String posterUrl;
 
-    @Column(name = "actor")
-    private String actor;
+    @Column(name = "actors")
+    private String actors;
 
     @Column(name = "country")
     private String country;
 
-    @Column(name = "premium_only")
+    @NotNull
+    @Column(name = "premium_only", nullable = false)
     private Boolean premiumOnly;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "rel_movie__genres",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "genres_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "movies" }, allowSetters = true)
+    private Set<Genres> genres = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -270,17 +294,17 @@ public class Movie implements Serializable {
         this.posterUrl = posterUrl;
     }
 
-    public String getActor() {
-        return this.actor;
+    public String getActors() {
+        return this.actors;
     }
 
-    public Movie actor(String actor) {
-        this.setActor(actor);
+    public Movie actors(String actors) {
+        this.setActors(actors);
         return this;
     }
 
-    public void setActor(String actor) {
-        this.actor = actor;
+    public void setActors(String actors) {
+        this.actors = actors;
     }
 
     public String getCountry() {
@@ -307,6 +331,29 @@ public class Movie implements Serializable {
 
     public void setPremiumOnly(Boolean premiumOnly) {
         this.premiumOnly = premiumOnly;
+    }
+
+    public Set<Genres> getGenres() {
+        return this.genres;
+    }
+
+    public void setGenres(Set<Genres> genres) {
+        this.genres = genres;
+    }
+
+    public Movie genres(Set<Genres> genres) {
+        this.setGenres(genres);
+        return this;
+    }
+
+    public Movie addGenres(Genres genres) {
+        this.genres.add(genres);
+        return this;
+    }
+
+    public Movie removeGenres(Genres genres) {
+        this.genres.remove(genres);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -347,7 +394,7 @@ public class Movie implements Serializable {
             ", isSingle='" + getIsSingle() + "'" +
             ", thumbUrl='" + getThumbUrl() + "'" +
             ", posterUrl='" + getPosterUrl() + "'" +
-            ", actor='" + getActor() + "'" +
+            ", actors='" + getActors() + "'" +
             ", country='" + getCountry() + "'" +
             ", premiumOnly='" + getPremiumOnly() + "'" +
             "}";

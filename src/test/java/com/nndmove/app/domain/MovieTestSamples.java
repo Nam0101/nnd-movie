@@ -26,7 +26,7 @@ public class MovieTestSamples {
             .content("content1")
             .thumbUrl("thumbUrl1")
             .posterUrl("posterUrl1")
-            .actor("actor1")
+            .actors("actors1")
             .country("country1");
     }
 
@@ -45,7 +45,7 @@ public class MovieTestSamples {
             .content("content2")
             .thumbUrl("thumbUrl2")
             .posterUrl("posterUrl2")
-            .actor("actor2")
+            .actors("actors2")
             .country("country2");
     }
 
@@ -64,7 +64,7 @@ public class MovieTestSamples {
             .content(UUID.randomUUID().toString())
             .thumbUrl(UUID.randomUUID().toString())
             .posterUrl(UUID.randomUUID().toString())
-            .actor(UUID.randomUUID().toString())
+            .actors(UUID.randomUUID().toString())
             .country(UUID.randomUUID().toString());
     }
 }
