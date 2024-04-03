@@ -180,7 +180,7 @@ info:
 
 jhipster:
   clientApp:
-    name: 'jhipsterApp'
+    name: 'movieAPI'
   # By default CORS is disabled. Uncomment to enable.
   # cors:
   #   allowed-origins: "http://localhost:8100,http://localhost:9000"
@@ -194,13 +194,13 @@ jhipster:
   api-docs:
     default-include-pattern: /api/**
     management-include-pattern: /management/**
-    title: JHipster API
-    description: JHipster API documentation
+    title: Movie API
+    description: Movie API documentation
     version: 0.0.1
     terms-of-service-url:
-    contact-name:
+    contact-name: Nam Nguyen
     contact-url:
-    contact-email:
+    contact-email: nam.nv205106@gmail.com
     license: unlicensed
     license-url:
   security:
