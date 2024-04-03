@@ -15,7 +15,7 @@
 
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.nndmove.app: DEBUG
@@ -35,9 +35,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/jhipster
-    username: jhipster
-    password:
+    url: jdbc:postgresql://ep-tight-pond-a1243jsz-pooler.ap-southeast-1.aws.neon.tech/movieDB
+    username: movie_owner
+    password: 0nk6dCKAJNPt
     hikari:
       poolName: Hikari
       auto-commit: false
