@@ -9,8 +9,6 @@ services:
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/jhipster
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgresql:5432/jhipster
-      - JHIPSTER_CACHE_REDIS_SERVER=redis://redis:6379
-      - JHIPSTER_CACHE_REDIS_CLUSTER=false
     ports:
       - 127.0.0.1:8080:8080
     healthcheck:
@@ -29,7 +27,3 @@ services:
     extends:
       file: ./postgresql.yml
       service: postgresql
-  redis:
-    extends:
-      file: ./redis.yml
-      service: redis

@@ -1,7 +1,6 @@
 package com.nndmove.app;
 
 import com.nndmove.app.config.AsyncSyncConfiguration;
-import com.nndmove.app.config.EmbeddedRedis;
 import com.nndmove.app.config.EmbeddedSQL;
 import com.nndmove.app.config.JacksonConfiguration;
 import java.lang.annotation.ElementType;
@@ -17,7 +16,6 @@ import org.springframework.test.annotation.DirtiesContext;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(classes = { JhipsterApp.class, JacksonConfiguration.class, AsyncSyncConfiguration.class })
-@EmbeddedRedis
 @EmbeddedSQL
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public @interface IntegrationTest {

@@ -4,7 +4,7 @@ application {
         authenticationType jwt
         databaseType sql
         devDatabaseType postgresql
-        enableHibernateCache true
+        enableHibernateCache false
         enableSwaggerCodegen true
         enableTranslation false
         jhiPrefix movie
@@ -14,7 +14,7 @@ application {
         prodDatabaseType postgresql
         searchEngine false
         skipClient true
-        cacheProvider redis
+        cacheProvider ehcache
     }
     entities *
     dto * with mapstruct

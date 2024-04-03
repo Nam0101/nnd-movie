@@ -6,15 +6,12 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Genres.
  */
 @Entity
 @Table(name = "genres")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Genres implements Serializable {
 
@@ -31,7 +28,6 @@ public class Genres implements Serializable {
     private String genres;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "genres")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
     private Set<Movie> movies = new HashSet<>();
 
