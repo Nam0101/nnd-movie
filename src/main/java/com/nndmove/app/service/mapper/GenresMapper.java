@@ -17,7 +17,7 @@ public interface GenresMapper extends EntityMapper<GenresDTO, Genres> {
     GenresDTO toDto(Genres s);
 
     @Mapping(target = "movies", ignore = true)
-    @Mapping(target = "removeMovie", ignore = true)
+    @Mapping(target = "movies", ignore = true)
     Genres toEntity(GenresDTO genresDTO);
 
     @Named("movieId")
