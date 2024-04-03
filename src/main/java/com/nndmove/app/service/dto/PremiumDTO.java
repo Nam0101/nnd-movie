@@ -4,11 +4,17 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.Premium} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Getter
+@Setter
+@NoArgsConstructor
 public class PremiumDTO implements Serializable {
 
     private Long id;
@@ -20,38 +26,6 @@ public class PremiumDTO implements Serializable {
     private ZonedDateTime endTime;
 
     private UserDTO user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ZonedDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(ZonedDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public ZonedDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(ZonedDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
 
     @Override
     public boolean equals(Object o) {

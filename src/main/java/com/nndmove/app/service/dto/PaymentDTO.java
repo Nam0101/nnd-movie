@@ -3,11 +3,17 @@ package com.nndmove.app.service.dto;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.Payment} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Getter
+@Setter
+@NoArgsConstructor
 public class PaymentDTO implements Serializable {
 
     private Long id;
@@ -28,62 +34,6 @@ public class PaymentDTO implements Serializable {
     private String transactionId;
 
     private UserDTO user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getPaymentTime() {
-        return paymentTime;
-    }
-
-    public void setPaymentTime(Long paymentTime) {
-        this.paymentTime = paymentTime;
-    }
-
-    public Long getPaymentPrice() {
-        return paymentPrice;
-    }
-
-    public void setPaymentPrice(Long paymentPrice) {
-        this.paymentPrice = paymentPrice;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
 
     @Override
     public boolean equals(Object o) {

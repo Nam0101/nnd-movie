@@ -43,7 +43,7 @@ public class LoggingAspect {
      * Pointcut that matches all Spring beans in the application's main packages.
      */
     @Pointcut(
-        "within(com.nndmove.app.repository..*)" + " || within(com.nndmove.app.service..*)" + " || within(com.nndmove.app.web.rest..*)"
+        "within(io.opt_team.tms.repository..*)" + " || within(io.opt_team.tms.service..*)" + " || within(io.opt_team.tms.web.rest..*)"
     )
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
@@ -79,7 +79,7 @@ public class LoggingAspect {
             logger(joinPoint).error(
                 "Exception in {}() with cause = {}",
                 joinPoint.getSignature().getName(),
-                e.getCause() != null ? String.valueOf(e.getCause()) : "NULL"
+                e.getCause() != null ? e.getCause() : "NULL"
             );
         }
     }

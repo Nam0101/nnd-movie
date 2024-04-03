@@ -3,9 +3,11 @@ package com.nndmove.app.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Setter;
 
 /**
  * A Genres.
@@ -15,14 +17,17 @@ import java.util.Set;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Genres implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "id")
     private Long id;
 
+    @Setter
     @NotNull
     @Column(name = "genres", nullable = false)
     private String genres;
@@ -42,10 +47,6 @@ public class Genres implements Serializable {
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getGenres() {
         return this.genres;
     }
@@ -53,10 +54,6 @@ public class Genres implements Serializable {
     public Genres genres(String genres) {
         this.setGenres(genres);
         return this;
-    }
-
-    public void setGenres(String genres) {
-        this.genres = genres;
     }
 
     public Set<Movie> getMovies() {
@@ -78,16 +75,14 @@ public class Genres implements Serializable {
         return this;
     }
 
-    public Genres addMovie(Movie movie) {
+    public void addMovie(Movie movie) {
         this.movies.add(movie);
         movie.getGenres().add(this);
-        return this;
     }
 
-    public Genres removeMovie(Movie movie) {
+    public void removeMovie(Movie movie) {
         this.movies.remove(movie);
         movie.getGenres().remove(this);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

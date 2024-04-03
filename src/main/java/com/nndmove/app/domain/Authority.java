@@ -3,8 +3,11 @@ package com.nndmove.app.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -16,8 +19,11 @@ import org.springframework.data.domain.Persistable;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Authority implements Serializable, Persistable<String> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
+    @Setter
+    @Getter
     @NotNull
     @Size(max = 50)
     @Id
@@ -29,17 +35,9 @@ public class Authority implements Serializable, Persistable<String> {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getName() {
-        return this.name;
-    }
-
     public Authority name(String name) {
         this.setName(name);
         return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @PostLoad
@@ -59,9 +57,8 @@ public class Authority implements Serializable, Persistable<String> {
         return !this.isPersisted;
     }
 
-    public Authority setIsPersisted() {
+    public void setIsPersisted() {
         this.isPersisted = true;
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

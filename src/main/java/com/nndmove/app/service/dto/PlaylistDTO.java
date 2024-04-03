@@ -2,11 +2,17 @@ package com.nndmove.app.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.Playlist} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Getter
+@Setter
+@NoArgsConstructor
 public class PlaylistDTO implements Serializable {
 
     private Long id;
@@ -14,30 +20,6 @@ public class PlaylistDTO implements Serializable {
     private UserDTO user;
 
     private MovieDTO movie;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
-
-    public MovieDTO getMovie() {
-        return movie;
-    }
-
-    public void setMovie(MovieDTO movie) {
-        this.movie = movie;
-    }
 
     @Override
     public boolean equals(Object o) {

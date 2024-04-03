@@ -3,18 +3,24 @@ package com.nndmove.app.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A Movie.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "movie")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Movie implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -95,21 +101,9 @@ public class Movie implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public Movie id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public Movie name(String name) {
@@ -117,25 +111,9 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getOriginName() {
-        return this.originName;
-    }
-
     public Movie originName(String originName) {
         this.setOriginName(originName);
         return this;
-    }
-
-    public void setOriginName(String originName) {
-        this.originName = originName;
-    }
-
-    public Boolean getIsCompleted() {
-        return this.isCompleted;
     }
 
     public Movie isCompleted(Boolean isCompleted) {
@@ -143,25 +121,9 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setIsCompleted(Boolean isCompleted) {
-        this.isCompleted = isCompleted;
-    }
-
-    public String getSlug() {
-        return this.slug;
-    }
-
     public Movie slug(String slug) {
         this.setSlug(slug);
         return this;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public String getEpisodeCurrent() {
-        return this.episodeCurrent;
     }
 
     public Movie episodeCurrent(String episodeCurrent) {
@@ -169,25 +131,9 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setEpisodeCurrent(String episodeCurrent) {
-        this.episodeCurrent = episodeCurrent;
-    }
-
-    public Integer getEpisodeTotal() {
-        return this.episodeTotal;
-    }
-
     public Movie episodeTotal(Integer episodeTotal) {
         this.setEpisodeTotal(episodeTotal);
         return this;
-    }
-
-    public void setEpisodeTotal(Integer episodeTotal) {
-        this.episodeTotal = episodeTotal;
-    }
-
-    public String getQuality() {
-        return this.quality;
     }
 
     public Movie quality(String quality) {
@@ -195,25 +141,9 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setQuality(String quality) {
-        this.quality = quality;
-    }
-
-    public Integer getYear() {
-        return this.year;
-    }
-
     public Movie year(Integer year) {
         this.setYear(year);
         return this;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public String getTrailerUrl() {
-        return this.trailerUrl;
     }
 
     public Movie trailerUrl(String trailerUrl) {
@@ -221,25 +151,9 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setTrailerUrl(String trailerUrl) {
-        this.trailerUrl = trailerUrl;
-    }
-
-    public String getTime() {
-        return this.time;
-    }
-
     public Movie time(String time) {
         this.setTime(time);
         return this;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getContent() {
-        return this.content;
     }
 
     public Movie content(String content) {
@@ -247,25 +161,9 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Boolean getIsSingle() {
-        return this.isSingle;
-    }
-
     public Movie isSingle(Boolean isSingle) {
         this.setIsSingle(isSingle);
         return this;
-    }
-
-    public void setIsSingle(Boolean isSingle) {
-        this.isSingle = isSingle;
-    }
-
-    public String getThumbUrl() {
-        return this.thumbUrl;
     }
 
     public Movie thumbUrl(String thumbUrl) {
@@ -273,25 +171,9 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-    }
-
-    public String getPosterUrl() {
-        return this.posterUrl;
-    }
-
     public Movie posterUrl(String posterUrl) {
         this.setPosterUrl(posterUrl);
         return this;
-    }
-
-    public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl;
-    }
-
-    public String getActors() {
-        return this.actors;
     }
 
     public Movie actors(String actors) {
@@ -299,42 +181,14 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public void setActors(String actors) {
-        this.actors = actors;
-    }
-
-    public String getCountry() {
-        return this.country;
-    }
-
     public Movie country(String country) {
         this.setCountry(country);
         return this;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public Boolean getPremiumOnly() {
-        return this.premiumOnly;
-    }
-
     public Movie premiumOnly(Boolean premiumOnly) {
         this.setPremiumOnly(premiumOnly);
         return this;
-    }
-
-    public void setPremiumOnly(Boolean premiumOnly) {
-        this.premiumOnly = premiumOnly;
-    }
-
-    public Set<Genres> getGenres() {
-        return this.genres;
-    }
-
-    public void setGenres(Set<Genres> genres) {
-        this.genres = genres;
     }
 
     public Movie genres(Set<Genres> genres) {

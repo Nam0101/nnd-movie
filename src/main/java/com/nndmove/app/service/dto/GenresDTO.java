@@ -5,10 +5,16 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.Genres} entity.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class GenresDTO implements Serializable {
 
@@ -18,30 +24,6 @@ public class GenresDTO implements Serializable {
     private String genres;
 
     private Set<MovieDTO> movies = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getGenres() {
-        return genres;
-    }
-
-    public void setGenres(String genres) {
-        this.genres = genres;
-    }
-
-    public Set<MovieDTO> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(Set<MovieDTO> movies) {
-        this.movies = movies;
-    }
 
     @Override
     public boolean equals(Object o) {

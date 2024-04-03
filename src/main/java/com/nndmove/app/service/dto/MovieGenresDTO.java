@@ -2,11 +2,17 @@ package com.nndmove.app.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.MovieGenres} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Getter
+@Setter
+@NoArgsConstructor
 public class MovieGenresDTO implements Serializable {
 
     private Long id;
@@ -14,30 +20,6 @@ public class MovieGenresDTO implements Serializable {
     private MovieDTO movie;
 
     private GenresDTO genres;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public MovieDTO getMovie() {
-        return movie;
-    }
-
-    public void setMovie(MovieDTO movie) {
-        this.movie = movie;
-    }
-
-    public GenresDTO getGenres() {
-        return genres;
-    }
-
-    public void setGenres(GenresDTO genres) {
-        this.genres = genres;
-    }
 
     @Override
     public boolean equals(Object o) {

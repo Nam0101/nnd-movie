@@ -3,10 +3,16 @@ package com.nndmove.app.service.dto;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.History} entity.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class HistoryDTO implements Serializable {
 
@@ -21,46 +27,6 @@ public class HistoryDTO implements Serializable {
     private UserDTO user;
 
     private MovieDTO movie;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getPart() {
-        return part;
-    }
-
-    public void setPart(Integer part) {
-        this.part = part;
-    }
-
-    public Integer getStopTime() {
-        return stopTime;
-    }
-
-    public void setStopTime(Integer stopTime) {
-        this.stopTime = stopTime;
-    }
-
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
-
-    public MovieDTO getMovie() {
-        return movie;
-    }
-
-    public void setMovie(MovieDTO movie) {
-        this.movie = movie;
-    }
 
     @Override
     public boolean equals(Object o) {

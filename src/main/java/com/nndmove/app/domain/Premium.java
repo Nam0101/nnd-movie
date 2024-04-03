@@ -2,17 +2,23 @@ package com.nndmove.app.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A Premium.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "premium")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Premium implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,21 +40,9 @@ public class Premium implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public Premium id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ZonedDateTime getStartTime() {
-        return this.startTime;
     }
 
     public Premium startTime(ZonedDateTime startTime) {
@@ -56,29 +50,9 @@ public class Premium implements Serializable {
         return this;
     }
 
-    public void setStartTime(ZonedDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public ZonedDateTime getEndTime() {
-        return this.endTime;
-    }
-
     public Premium endTime(ZonedDateTime endTime) {
         this.setEndTime(endTime);
         return this;
-    }
-
-    public void setEndTime(ZonedDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Premium user(User user) {

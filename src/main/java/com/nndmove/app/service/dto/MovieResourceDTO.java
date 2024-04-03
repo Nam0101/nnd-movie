@@ -3,11 +3,17 @@ package com.nndmove.app.service.dto;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link com.nndmove.app.domain.MovieResource} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Getter
+@Setter
+@NoArgsConstructor
 public class MovieResourceDTO implements Serializable {
 
     private Long id;
@@ -22,46 +28,6 @@ public class MovieResourceDTO implements Serializable {
     private String linkM3u8;
 
     private MovieDTO movie;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getPart() {
-        return part;
-    }
-
-    public void setPart(Integer part) {
-        this.part = part;
-    }
-
-    public String getLinkEmbed() {
-        return linkEmbed;
-    }
-
-    public void setLinkEmbed(String linkEmbed) {
-        this.linkEmbed = linkEmbed;
-    }
-
-    public String getLinkM3u8() {
-        return linkM3u8;
-    }
-
-    public void setLinkM3u8(String linkM3u8) {
-        this.linkM3u8 = linkM3u8;
-    }
-
-    public MovieDTO getMovie() {
-        return movie;
-    }
-
-    public void setMovie(MovieDTO movie) {
-        this.movie = movie;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,16 +2,22 @@ package com.nndmove.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A MovieGenres.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "movie_genres")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class MovieGenres implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -30,38 +36,14 @@ public class MovieGenres implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public MovieGenres id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Movie getMovie() {
-        return this.movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
     public MovieGenres movie(Movie movie) {
         this.setMovie(movie);
         return this;
-    }
-
-    public Genres getGenres() {
-        return this.genres;
-    }
-
-    public void setGenres(Genres genres) {
-        this.genres = genres;
     }
 
     public MovieGenres genres(Genres genres) {

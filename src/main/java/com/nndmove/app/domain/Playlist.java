@@ -2,16 +2,22 @@ package com.nndmove.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A Playlist.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "playlist")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Playlist implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -29,38 +35,14 @@ public class Playlist implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public Playlist id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Playlist user(User user) {
         this.setUser(user);
         return this;
-    }
-
-    public Movie getMovie() {
-        return this.movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
     }
 
     public Playlist movie(Movie movie) {

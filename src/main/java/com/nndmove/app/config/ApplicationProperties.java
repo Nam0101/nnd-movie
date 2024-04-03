@@ -1,5 +1,7 @@
 package com.nndmove.app.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -8,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Properties are configured in the {@code application.yml} file.
  * See {@link tech.jhipster.config.JHipsterProperties} for a good example.
  */
+@Getter
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
@@ -15,23 +18,13 @@ public class ApplicationProperties {
 
     // jhipster-needle-application-properties-property
 
-    public Liquibase getLiquibase() {
-        return liquibase;
-    }
-
     // jhipster-needle-application-properties-property-getter
 
+    @Setter
+    @Getter
     public static class Liquibase {
 
         private Boolean asyncStart;
-
-        public Boolean getAsyncStart() {
-            return asyncStart;
-        }
-
-        public void setAsyncStart(Boolean asyncStart) {
-            this.asyncStart = asyncStart;
-        }
     }
     // jhipster-needle-application-properties-property-class
 }
