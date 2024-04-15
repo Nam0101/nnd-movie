@@ -21,7 +21,7 @@ open class WebConfigurer(private val env: Environment, private val jHipsterPrope
     private val log: Logger = LoggerFactory.getLogger(WebConfigurer::class.java)
 
     override fun onStartup(servletContext: ServletContext) {
-        if (env.activeProfiles.size != 0) {
+        if (env.activeProfiles.isNotEmpty()) {
             log.info("Web application configuration, using profiles: {}", *env.activeProfiles as Array<Any?>)
         }
 

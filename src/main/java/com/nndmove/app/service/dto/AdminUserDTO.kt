@@ -51,11 +51,11 @@ open class AdminUserDTO : Serializable {
 
     constructor(user: User) {
         this.id = user.id
-        this.login = user.login
+        this.login = user.getLogin()
         this.firstName = user.firstName
         this.lastName = user.lastName
         this.email = user.email
-        this.isActivated = user.isActivated
+        this.isActivated = user.activated
         this.imageUrl = user.imageUrl
         this.langKey = user.langKey
         this.createdBy = user.createdBy
@@ -63,7 +63,7 @@ open class AdminUserDTO : Serializable {
         this.lastModifiedBy = user.lastModifiedBy
         this.lastModifiedDate = user.lastModifiedDate
         this.authorities = user.authorities.stream().map { obj: Authority -> obj.name }
-            .collect(Collectors.toSet())
+            .collect(Collectors.toSet()) as Set<String>?
     }
 
     constructor()

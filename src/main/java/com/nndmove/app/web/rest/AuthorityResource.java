@@ -50,12 +50,12 @@ public class AuthorityResource {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Authority> createAuthority(@Valid @RequestBody Authority authority) throws URISyntaxException {
         log.debug("REST request to save Authority : {}", authority);
-        if (authorityRepository.existsById(authority.getName())) {
+        if (authorityRepository.existsById(authority.name)) {
             throw new BadRequestAlertException("authority already exists", ENTITY_NAME, "idexists");
         }
         authority = authorityRepository.save(authority);
-        return ResponseEntity.created(new URI("/api/authorities/" + authority.getName()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, authority.getName()))
+        return ResponseEntity.created(new URI("/api/authorities/" + authority.name))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, authority.name))
             .body(authority);
     }
 

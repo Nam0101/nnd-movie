@@ -47,12 +47,12 @@ public class UserMapper {
             User user = new User();
             user.setId(userDTO.id);
             user.setLogin(userDTO.login);
-            user.setFirstName(userDTO.firstName);
-            user.setLastName(userDTO.lastName);
-            user.setEmail(userDTO.email);
-            user.setImageUrl(userDTO.imageUrl);
+            user.firstName = userDTO.firstName;
+            user.lastName = userDTO.lastName;
+            user.email = userDTO.email;
+            user.imageUrl = userDTO.imageUrl;
             user.setActivated(userDTO.isActivated());
-            user.setLangKey(userDTO.langKey);
+            user.langKey = userDTO.langKey;
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.authorities);
             user.setAuthorities(authorities);
             return user;
@@ -67,7 +67,7 @@ public class UserMapper {
                 .stream()
                 .map(string -> {
                     Authority auth = new Authority();
-                    auth.setName(string);
+                    auth.name = string;
                     return auth;
                 })
                 .collect(Collectors.toSet());

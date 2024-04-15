@@ -87,34 +87,34 @@ public class MailService {
     }
 
     private void sendEmailFromTemplateSync(User user, String templateName, String titleKey) {
-        if (user.getEmail() == null) {
+        if (user.email == null) {
             log.debug("Email doesn't exist for user '{}'", user.getLogin());
             return;
         }
-        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Locale locale = Locale.forLanguageTag(user.langKey);
         Context context = new Context(locale);
         context.setVariable(USER, user);
         context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
-        this.sendEmailSync(user.getEmail(), subject, content, false, true);
+        this.sendEmailSync(user.email, subject, content, false, true);
     }
 
     @Async
     public void sendActivationEmail(User user) {
-        log.debug("Sending activation email to '{}'", user.getEmail());
+        log.debug("Sending activation email to '{}'", user.email);
         this.sendEmailFromTemplateSync(user, "mail/activationEmail", "email.activation.title");
     }
 
     @Async
     public void sendCreationEmail(User user) {
-        log.debug("Sending creation email to '{}'", user.getEmail());
+        log.debug("Sending creation email to '{}'", user.email);
         this.sendEmailFromTemplateSync(user, "mail/creationEmail", "email.activation.title");
     }
 
     @Async
     public void sendPasswordResetMail(User user) {
-        log.debug("Sending password reset email to '{}'", user.getEmail());
+        log.debug("Sending password reset email to '{}'", user.email);
         this.sendEmailFromTemplateSync(user, "mail/passwordResetEmail", "email.reset.title");
     }
 }

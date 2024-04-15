@@ -41,9 +41,9 @@ class UserDTO : Serializable {
 
     constructor(user: User) {
         this.id = user.id
-        this.login = user.login
+        this.login = user.getLogin()
         // Add the new fields here
-        this.isActivated = user.isActivated
+        this.isActivated = user.activated
         this.activationKey = user.activationKey
         this.createdBy = user.createdBy
         this.createdDate = user.createdDate

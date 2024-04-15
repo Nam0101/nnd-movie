@@ -48,15 +48,14 @@ public class DomainUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseLogin, User user) {
-        if (!user.isActivated()) {
+        if (!user.getActivated()) {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
-        List<SimpleGrantedAuthority> grantedAuthorities = user
-            .getAuthorities()
+        List<SimpleGrantedAuthority> grantedAuthorities = user.authorities
             .stream()
             .map(Authority::getName)
             .map(SimpleGrantedAuthority::new)
             .toList();
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.password, grantedAuthorities);
     }
 }

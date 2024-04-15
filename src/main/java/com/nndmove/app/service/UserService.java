@@ -60,7 +60,7 @@ public class UserService {
             .map(user -> {
                 // activate given user for the registration key.
                 user.setActivated(true);
-                user.setActivationKey(null);
+                user.activationKey = null;
                 this.clearUserCaches(user);
                 log.debug("Activated user: {}", user);
                 return user;
@@ -71,11 +71,11 @@ public class UserService {
         log.debug("Reset user password for reset key {}", key);
         return userRepository
             .findOneByResetKey(key)
-            .filter(user -> user.getResetDate().isAfter(Instant.now().minus(1, ChronoUnit.DAYS)))
+            .filter(user -> user.resetDate.isAfter(Instant.now().minus(1, ChronoUnit.DAYS)))
             .map(user -> {
-                user.setPassword(passwordEncoder.encode(newPassword));
-                user.setResetKey(null);
-                user.setResetDate(null);
+                user.password = passwordEncoder.encode(newPassword);
+                user.resetKey = null;
+                user.resetDate = null;
                 this.clearUserCaches(user);
                 return user;
             });
@@ -84,10 +84,10 @@ public class UserService {
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository
             .findOneByEmailIgnoreCase(mail)
-            .filter(User::isActivated)
+            .filter(User::getActivated)
             .map(user -> {
-                user.setResetKey(RandomUtil.generateResetKey());
-                user.setResetDate(Instant.now());
+                user.resetKey = RandomUtil.generateResetKey();
+                user.resetDate = Instant.now();
                 this.clearUserCaches(user);
                 return user;
             });
@@ -114,18 +114,18 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.login.toLowerCase());
         // new user gets initially a generated password
-        newUser.setPassword(encryptedPassword);
-        newUser.setFirstName(userDTO.firstName);
-        newUser.setLastName(userDTO.lastName);
+        newUser.password = encryptedPassword;
+        newUser.firstName = userDTO.firstName;
+        newUser.lastName = userDTO.lastName;
         if (userDTO.email != null) {
-            newUser.setEmail(userDTO.email.toLowerCase());
+            newUser.email = userDTO.email.toLowerCase();
         }
-        newUser.setImageUrl(userDTO.imageUrl);
-        newUser.setLangKey(userDTO.langKey);
+        newUser.imageUrl = userDTO.imageUrl;
+        newUser.langKey = userDTO.langKey;
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
-        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        newUser.activationKey = RandomUtil.generateActivationKey();
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
@@ -136,7 +136,7 @@ public class UserService {
     }
 
     private boolean removeNonActivatedUser(User existingUser) {
-        if (existingUser.isActivated()) {
+        if (existingUser.getActivated()) {
             return false;
         }
         userRepository.delete(existingUser);
@@ -148,21 +148,21 @@ public class UserService {
     public User createUser(AdminUserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.login.toLowerCase());
-        user.setFirstName(userDTO.firstName);
-        user.setLastName(userDTO.lastName);
+        user.firstName = userDTO.firstName;
+        user.lastName = userDTO.lastName;
         if (userDTO.email != null) {
-            user.setEmail(userDTO.email.toLowerCase());
+            user.email = userDTO.email.toLowerCase();
         }
-        user.setImageUrl(userDTO.imageUrl);
+        user.imageUrl = userDTO.imageUrl;
         if (userDTO.langKey == null) {
-            user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
+            user.langKey = Constants.DEFAULT_LANGUAGE; // default language
         } else {
-            user.setLangKey(userDTO.langKey);
+            user.langKey = userDTO.langKey;
         }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
-        user.setPassword(encryptedPassword);
-        user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(Instant.now());
+        user.password = encryptedPassword;
+        user.resetKey = RandomUtil.generateResetKey();
+        user.resetDate = Instant.now();
         user.setActivated(true);
         if (userDTO.authorities != null) {
             Set<Authority> authorities = userDTO.authorities
@@ -192,15 +192,15 @@ public class UserService {
             .map(user -> {
                 this.clearUserCaches(user);
                 user.setLogin(userDTO.login.toLowerCase());
-                user.setFirstName(userDTO.firstName);
-                user.setLastName(userDTO.lastName);
+                user.firstName = userDTO.firstName;
+                user.lastName = userDTO.lastName;
                 if (userDTO.email != null) {
-                    user.setEmail(userDTO.email.toLowerCase());
+                    user.email = userDTO.email.toLowerCase();
                 }
-                user.setImageUrl(userDTO.imageUrl);
+                user.imageUrl = userDTO.imageUrl;
                 user.setActivated(userDTO.isActivated());
-                user.setLangKey(userDTO.langKey);
-                Set<Authority> managedAuthorities = user.getAuthorities();
+                user.langKey = userDTO.langKey;
+                Set<Authority> managedAuthorities = user.authorities;
                 managedAuthorities.clear();
                 userDTO.authorities
                     .stream()
@@ -239,13 +239,13 @@ public class UserService {
         SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
             .ifPresent(user -> {
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
+                user.firstName = firstName;
+                user.lastName = lastName;
                 if (email != null) {
-                    user.setEmail(email.toLowerCase());
+                    user.email = email.toLowerCase();
                 }
-                user.setLangKey(langKey);
-                user.setImageUrl(imageUrl);
+                user.langKey = langKey;
+                user.imageUrl = imageUrl;
                 userRepository.save(user);
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
@@ -257,12 +257,12 @@ public class UserService {
         SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
             .ifPresent(user -> {
-                String currentEncryptedPassword = user.getPassword();
+                String currentEncryptedPassword = user.password;
                 if (!passwordEncoder.matches(currentClearTextPassword, currentEncryptedPassword)) {
                     throw new InvalidPasswordException();
                 }
                 String encryptedPassword = passwordEncoder.encode(newPassword);
-                user.setPassword(encryptedPassword);
+                user.password = encryptedPassword;
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
@@ -315,8 +315,8 @@ public class UserService {
 
     private void clearUserCaches(User user) {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-        if (user.getEmail() != null) {
-            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+        if (user.email != null) {
+            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.email);
         }
     }
 }
