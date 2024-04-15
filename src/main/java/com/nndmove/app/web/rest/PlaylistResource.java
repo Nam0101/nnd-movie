@@ -55,12 +55,12 @@ public class PlaylistResource {
     @PostMapping("")
     public ResponseEntity<PlaylistDTO> createPlaylist(@RequestBody PlaylistDTO playlistDTO) throws URISyntaxException {
         log.debug("REST request to save Playlist : {}", playlistDTO);
-        if (playlistDTO.getId() != null) {
+        if (playlistDTO.id != null) {
             throw new BadRequestAlertException("A new playlist cannot already have an ID", ENTITY_NAME, "idexists");
         }
         playlistDTO = playlistService.save(playlistDTO);
-        return ResponseEntity.created(new URI("/api/playlists/" + playlistDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, playlistDTO.getId().toString()))
+        return ResponseEntity.created(new URI("/api/playlists/" + playlistDTO.id))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, playlistDTO.id.toString()))
             .body(playlistDTO);
     }
 
@@ -80,10 +80,10 @@ public class PlaylistResource {
         @RequestBody PlaylistDTO playlistDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Playlist : {}, {}", id, playlistDTO);
-        if (playlistDTO.getId() == null) {
+        if (playlistDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, playlistDTO.getId())) {
+        if (!Objects.equals(id, playlistDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -93,7 +93,7 @@ public class PlaylistResource {
 
         playlistDTO = playlistService.update(playlistDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, playlistDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, playlistDTO.id.toString()))
             .body(playlistDTO);
     }
 
@@ -114,10 +114,10 @@ public class PlaylistResource {
         @RequestBody PlaylistDTO playlistDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Playlist partially : {}, {}", id, playlistDTO);
-        if (playlistDTO.getId() == null) {
+        if (playlistDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, playlistDTO.getId())) {
+        if (!Objects.equals(id, playlistDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -129,7 +129,7 @@ public class PlaylistResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, playlistDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, playlistDTO.id.toString())
         );
     }
 

@@ -66,7 +66,7 @@ public class MovieGenresService {
         log.debug("Request to partially update MovieGenres : {}", movieGenresDTO);
 
         return movieGenresRepository
-            .findById(movieGenresDTO.getId())
+            .findById(movieGenresDTO.id)
             .map(existingMovieGenres -> {
                 movieGenresMapper.partialUpdate(existingMovieGenres, movieGenresDTO);
 

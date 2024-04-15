@@ -54,8 +54,8 @@ public class AuthenticateController {
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-            loginVM.getUsername(),
-            loginVM.getPassword()
+            loginVM.username,
+            loginVM.password
         );
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);

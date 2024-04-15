@@ -2,12 +2,11 @@ package com.nndmove.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Setter;
 
 /**
  * A Genres.
@@ -20,14 +19,12 @@ public class Genres implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "id")
     private Long id;
 
-    @Setter
     @NotNull
     @Column(name = "genres", nullable = false)
     private String genres;
@@ -108,8 +105,16 @@ public class Genres implements Serializable {
     @Override
     public String toString() {
         return "Genres{" +
-            "id=" + getId() +
-            ", genres='" + getGenres() + "'" +
-            "}";
+                "id=" + getId() +
+                ", genres='" + getGenres() + "'" +
+                "}";
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setGenres(@NotNull String genres) {
+        this.genres = genres;
     }
 }

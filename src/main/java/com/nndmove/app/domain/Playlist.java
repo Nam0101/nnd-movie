@@ -4,14 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A Playlist.
  */
-@Setter
-@Getter
 @Entity
 @Table(name = "playlist")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -73,7 +69,32 @@ public class Playlist implements Serializable {
     @Override
     public String toString() {
         return "Playlist{" +
-            "id=" + getId() +
-            "}";
+                "id=" + getId() +
+                "}";
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public Movie getMovie() {
+        return this.movie;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

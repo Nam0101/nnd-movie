@@ -4,14 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A MovieGenres.
  */
-@Setter
-@Getter
 @Entity
 @Table(name = "movie_genres")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -74,7 +70,33 @@ public class MovieGenres implements Serializable {
     @Override
     public String toString() {
         return "MovieGenres{" +
-            "id=" + getId() +
-            "}";
+                "id=" + getId() +
+                "}";
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public Movie getMovie() {
+        return this.movie;
+    }
+
+    public Genres getGenres() {
+        return this.genres;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    @JsonIgnoreProperties(value = { "movies" }, allowSetters = true)
+    public void setGenres(Genres genres) {
+        this.genres = genres;
     }
 }

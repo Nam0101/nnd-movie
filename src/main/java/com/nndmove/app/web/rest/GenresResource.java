@@ -57,12 +57,12 @@ public class GenresResource {
     @PostMapping("")
     public ResponseEntity<GenresDTO> createGenres(@Valid @RequestBody GenresDTO genresDTO) throws URISyntaxException {
         log.debug("REST request to save Genres : {}", genresDTO);
-        if (genresDTO.getId() != null) {
+        if (genresDTO.id != null) {
             throw new BadRequestAlertException("A new genres cannot already have an ID", ENTITY_NAME, "idexists");
         }
         genresDTO = genresService.save(genresDTO);
-        return ResponseEntity.created(new URI("/api/genres/" + genresDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, genresDTO.getId().toString()))
+        return ResponseEntity.created(new URI("/api/genres/" + genresDTO.id))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, genresDTO.id.toString()))
             .body(genresDTO);
     }
 
@@ -82,10 +82,10 @@ public class GenresResource {
         @Valid @RequestBody GenresDTO genresDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Genres : {}, {}", id, genresDTO);
-        if (genresDTO.getId() == null) {
+        if (genresDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, genresDTO.getId())) {
+        if (!Objects.equals(id, genresDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -95,7 +95,7 @@ public class GenresResource {
 
         genresDTO = genresService.update(genresDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, genresDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, genresDTO.id.toString()))
             .body(genresDTO);
     }
 
@@ -116,10 +116,10 @@ public class GenresResource {
         @NotNull @RequestBody GenresDTO genresDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Genres partially : {}, {}", id, genresDTO);
-        if (genresDTO.getId() == null) {
+        if (genresDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, genresDTO.getId())) {
+        if (!Objects.equals(id, genresDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -131,7 +131,7 @@ public class GenresResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, genresDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, genresDTO.id.toString())
         );
     }
 

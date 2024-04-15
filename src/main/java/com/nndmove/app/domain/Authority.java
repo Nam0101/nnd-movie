@@ -2,12 +2,11 @@ package com.nndmove.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -22,8 +21,6 @@ public class Authority implements Serializable, Persistable<String> {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Setter
-    @Getter
     @NotNull
     @Size(max = 50)
     @Id
@@ -85,5 +82,13 @@ public class Authority implements Serializable, Persistable<String> {
         return "Authority{" +
             "name=" + getName() +
             "}";
+    }
+
+    public @NotNull @Size(max = 50) String getName() {
+        return this.name;
+    }
+
+    public void setName(@NotNull @Size(max = 50) String name) {
+        this.name = name;
     }
 }

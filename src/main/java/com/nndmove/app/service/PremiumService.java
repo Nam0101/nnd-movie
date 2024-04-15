@@ -66,7 +66,7 @@ public class PremiumService {
         log.debug("Request to partially update Premium : {}", premiumDTO);
 
         return premiumRepository
-            .findById(premiumDTO.getId())
+            .findById(premiumDTO.id)
             .map(existingPremium -> {
                 premiumMapper.partialUpdate(existingPremium, premiumDTO);
 

@@ -66,7 +66,7 @@ public class MovieResourceService {
         log.debug("Request to partially update MovieResource : {}", movieResourceDTO);
 
         return movieResourceRepository
-            .findById(movieResourceDTO.getId())
+            .findById(movieResourceDTO.id)
             .map(existingMovieResource -> {
                 movieResourceMapper.partialUpdate(existingMovieResource, movieResourceDTO);
 

@@ -57,12 +57,12 @@ public class MovieResource {
     @PostMapping("")
     public ResponseEntity<MovieDTO> createMovie(@Valid @RequestBody MovieDTO movieDTO) throws URISyntaxException {
         log.debug("REST request to save Movie : {}", movieDTO);
-        if (movieDTO.getId() != null) {
+        if (movieDTO.id != null) {
             throw new BadRequestAlertException("A new movie cannot already have an ID", ENTITY_NAME, "idexists");
         }
         movieDTO = movieService.save(movieDTO);
-        return ResponseEntity.created(new URI("/api/movies/" + movieDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, movieDTO.getId().toString()))
+        return ResponseEntity.created(new URI("/api/movies/" + movieDTO.id))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, movieDTO.id.toString()))
             .body(movieDTO);
     }
 
@@ -82,10 +82,10 @@ public class MovieResource {
         @Valid @RequestBody MovieDTO movieDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Movie : {}, {}", id, movieDTO);
-        if (movieDTO.getId() == null) {
+        if (movieDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, movieDTO.getId())) {
+        if (!Objects.equals(id, movieDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -95,7 +95,7 @@ public class MovieResource {
 
         movieDTO = movieService.update(movieDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieDTO.id.toString()))
             .body(movieDTO);
     }
 
@@ -116,10 +116,10 @@ public class MovieResource {
         @NotNull @RequestBody MovieDTO movieDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Movie partially : {}, {}", id, movieDTO);
-        if (movieDTO.getId() == null) {
+        if (movieDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, movieDTO.getId())) {
+        if (!Objects.equals(id, movieDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -131,7 +131,7 @@ public class MovieResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieDTO.id.toString())
         );
     }
 

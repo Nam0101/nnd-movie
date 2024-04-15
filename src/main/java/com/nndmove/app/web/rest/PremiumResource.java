@@ -57,12 +57,12 @@ public class PremiumResource {
     @PostMapping("")
     public ResponseEntity<PremiumDTO> createPremium(@Valid @RequestBody PremiumDTO premiumDTO) throws URISyntaxException {
         log.debug("REST request to save Premium : {}", premiumDTO);
-        if (premiumDTO.getId() != null) {
+        if (premiumDTO.id != null) {
             throw new BadRequestAlertException("A new premium cannot already have an ID", ENTITY_NAME, "idexists");
         }
         premiumDTO = premiumService.save(premiumDTO);
-        return ResponseEntity.created(new URI("/api/premiums/" + premiumDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, premiumDTO.getId().toString()))
+        return ResponseEntity.created(new URI("/api/premiums/" + premiumDTO.id))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, premiumDTO.id.toString()))
             .body(premiumDTO);
     }
 
@@ -82,10 +82,10 @@ public class PremiumResource {
         @Valid @RequestBody PremiumDTO premiumDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Premium : {}, {}", id, premiumDTO);
-        if (premiumDTO.getId() == null) {
+        if (premiumDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, premiumDTO.getId())) {
+        if (!Objects.equals(id, premiumDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -95,7 +95,7 @@ public class PremiumResource {
 
         premiumDTO = premiumService.update(premiumDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, premiumDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, premiumDTO.id.toString()))
             .body(premiumDTO);
     }
 
@@ -116,10 +116,10 @@ public class PremiumResource {
         @NotNull @RequestBody PremiumDTO premiumDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Premium partially : {}, {}", id, premiumDTO);
-        if (premiumDTO.getId() == null) {
+        if (premiumDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, premiumDTO.getId())) {
+        if (!Objects.equals(id, premiumDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -131,7 +131,7 @@ public class PremiumResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, premiumDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, premiumDTO.id.toString())
         );
     }
 

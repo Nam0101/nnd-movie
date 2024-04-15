@@ -19,11 +19,14 @@ logging:
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.nndmove.app: DEBUG
-
+#enable vitual thread
 spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+  threads:
+    virtual:
+      enabled: true
   devtools:
     restart:
       enabled: true

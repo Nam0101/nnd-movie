@@ -13,14 +13,12 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 
 /**
  * A user.
  */
-@Getter
 @Entity
 @Table(name = "movie_user")
 public class User extends AbstractAuditingEntity<Long> implements Serializable {
@@ -176,5 +174,57 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
             "}";
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public @NotNull @Pattern(regexp = Constants.LOGIN_REGEX) @Size(min = 1, max = 50) String getLogin() {
+        return this.login;
+    }
+
+    public @NotNull @Size(min = 60, max = 60) String getPassword() {
+        return this.password;
+    }
+
+    public @Size(max = 50) String getFirstName() {
+        return this.firstName;
+    }
+
+    public @Size(max = 50) String getLastName() {
+        return this.lastName;
+    }
+
+    public @Email @Size(min = 5, max = 254) String getEmail() {
+        return this.email;
+    }
+
+    public @NotNull boolean isActivated() {
+        return this.activated;
+    }
+
+    public @Size(min = 2, max = 10) String getLangKey() {
+        return this.langKey;
+    }
+
+    public @Size(max = 256) String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    public @Size(max = 20) String getActivationKey() {
+        return this.activationKey;
+    }
+
+    public @Size(max = 20) String getResetKey() {
+        return this.resetKey;
+    }
+
+    public Instant getResetDate() {
+        return this.resetDate;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return this.authorities;
     }
 }

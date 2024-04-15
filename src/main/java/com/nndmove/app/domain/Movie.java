@@ -2,19 +2,15 @@ package com.nndmove.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A Movie.
  */
-@Setter
-@Getter
 @Entity
 @Table(name = "movie")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -229,24 +225,177 @@ public class Movie implements Serializable {
     @Override
     public String toString() {
         return "Movie{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", originName='" + getOriginName() + "'" +
-            ", isCompleted='" + getIsCompleted() + "'" +
-            ", slug='" + getSlug() + "'" +
-            ", episodeCurrent='" + getEpisodeCurrent() + "'" +
-            ", episodeTotal=" + getEpisodeTotal() +
-            ", quality='" + getQuality() + "'" +
-            ", year=" + getYear() +
-            ", trailerUrl='" + getTrailerUrl() + "'" +
-            ", time='" + getTime() + "'" +
-            ", content='" + getContent() + "'" +
-            ", isSingle='" + getIsSingle() + "'" +
-            ", thumbUrl='" + getThumbUrl() + "'" +
-            ", posterUrl='" + getPosterUrl() + "'" +
-            ", actors='" + getActors() + "'" +
-            ", country='" + getCountry() + "'" +
-            ", premiumOnly='" + getPremiumOnly() + "'" +
-            "}";
+                "id=" + getId() +
+                ", name='" + getName() + "'" +
+                ", originName='" + getOriginName() + "'" +
+                ", isCompleted='" + getIsCompleted() + "'" +
+                ", slug='" + getSlug() + "'" +
+                ", episodeCurrent='" + getEpisodeCurrent() + "'" +
+                ", episodeTotal=" + getEpisodeTotal() +
+                ", quality='" + getQuality() + "'" +
+                ", year=" + getYear() +
+                ", trailerUrl='" + getTrailerUrl() + "'" +
+                ", time='" + getTime() + "'" +
+                ", content='" + getContent() + "'" +
+                ", isSingle='" + getIsSingle() + "'" +
+                ", thumbUrl='" + getThumbUrl() + "'" +
+                ", posterUrl='" + getPosterUrl() + "'" +
+                ", actors='" + getActors() + "'" +
+                ", country='" + getCountry() + "'" +
+                ", premiumOnly='" + getPremiumOnly() + "'" +
+                "}";
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public @NotNull String getName() {
+        return this.name;
+    }
+
+    public @NotNull String getOriginName() {
+        return this.originName;
+    }
+
+    public @NotNull Boolean getIsCompleted() {
+        return this.isCompleted;
+    }
+
+    public @NotNull String getSlug() {
+        return this.slug;
+    }
+
+    public @NotNull String getEpisodeCurrent() {
+        return this.episodeCurrent;
+    }
+
+    public @NotNull Integer getEpisodeTotal() {
+        return this.episodeTotal;
+    }
+
+    public @NotNull String getQuality() {
+        return this.quality;
+    }
+
+    public @NotNull Integer getYear() {
+        return this.year;
+    }
+
+    public String getTrailerUrl() {
+        return this.trailerUrl;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public @NotNull Boolean getIsSingle() {
+        return this.isSingle;
+    }
+
+    public String getThumbUrl() {
+        return this.thumbUrl;
+    }
+
+    public String getPosterUrl() {
+        return this.posterUrl;
+    }
+
+    public String getActors() {
+        return this.actors;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public @NotNull Boolean getPremiumOnly() {
+        return this.premiumOnly;
+    }
+
+    public Set<Genres> getGenres() {
+        return this.genres;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(@NotNull String name) {
+        this.name = name;
+    }
+
+    public void setOriginName(@NotNull String originName) {
+        this.originName = originName;
+    }
+
+    public void setIsCompleted(@NotNull Boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
+    public void setSlug(@NotNull String slug) {
+        this.slug = slug;
+    }
+
+    public void setEpisodeCurrent(@NotNull String episodeCurrent) {
+        this.episodeCurrent = episodeCurrent;
+    }
+
+    public void setEpisodeTotal(@NotNull Integer episodeTotal) {
+        this.episodeTotal = episodeTotal;
+    }
+
+    public void setQuality(@NotNull String quality) {
+        this.quality = quality;
+    }
+
+    public void setYear(@NotNull Integer year) {
+        this.year = year;
+    }
+
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setIsSingle(@NotNull Boolean isSingle) {
+        this.isSingle = isSingle;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setPremiumOnly(@NotNull Boolean premiumOnly) {
+        this.premiumOnly = premiumOnly;
+    }
+
+    @JsonIgnoreProperties(value = { "movies" }, allowSetters = true)
+    public void setGenres(Set<Genres> genres) {
+        this.genres = genres;
     }
 }

@@ -45,15 +45,15 @@ public class UserMapper {
             return null;
         } else {
             User user = new User();
-            user.setId(userDTO.getId());
-            user.setLogin(userDTO.getLogin());
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
-            user.setEmail(userDTO.getEmail());
-            user.setImageUrl(userDTO.getImageUrl());
+            user.setId(userDTO.id);
+            user.setLogin(userDTO.login);
+            user.setFirstName(userDTO.firstName);
+            user.setLastName(userDTO.lastName);
+            user.setEmail(userDTO.email);
+            user.setImageUrl(userDTO.imageUrl);
             user.setActivated(userDTO.isActivated());
-            user.setLangKey(userDTO.getLangKey());
-            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
+            user.setLangKey(userDTO.langKey);
+            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.authorities);
             user.setAuthorities(authorities);
             return user;
         }
@@ -93,7 +93,7 @@ public class UserMapper {
             return null;
         }
         UserDTO userDto = new UserDTO();
-        userDto.setId(user.getId());
+        userDto.id = user.getId();
         return userDto;
     }
 
@@ -122,8 +122,8 @@ public class UserMapper {
             return null;
         }
         UserDTO userDto = new UserDTO();
-        userDto.setId(user.getId());
-        userDto.setLogin(user.getLogin());
+        userDto.id = user.getId();
+        userDto.login = user.getLogin();
         return userDto;
     }
 

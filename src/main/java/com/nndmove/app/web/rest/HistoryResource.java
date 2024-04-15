@@ -57,12 +57,12 @@ public class HistoryResource {
     @PostMapping("")
     public ResponseEntity<HistoryDTO> createHistory(@Valid @RequestBody HistoryDTO historyDTO) throws URISyntaxException {
         log.debug("REST request to save History : {}", historyDTO);
-        if (historyDTO.getId() != null) {
+        if (historyDTO.id != null) {
             throw new BadRequestAlertException("A new history cannot already have an ID", ENTITY_NAME, "idexists");
         }
         historyDTO = historyService.save(historyDTO);
-        return ResponseEntity.created(new URI("/api/histories/" + historyDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, historyDTO.getId().toString()))
+        return ResponseEntity.created(new URI("/api/histories/" + historyDTO.id))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, historyDTO.id.toString()))
             .body(historyDTO);
     }
 
@@ -82,10 +82,10 @@ public class HistoryResource {
         @Valid @RequestBody HistoryDTO historyDTO
     ) throws URISyntaxException {
         log.debug("REST request to update History : {}, {}", id, historyDTO);
-        if (historyDTO.getId() == null) {
+        if (historyDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, historyDTO.getId())) {
+        if (!Objects.equals(id, historyDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -95,7 +95,7 @@ public class HistoryResource {
 
         historyDTO = historyService.update(historyDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, historyDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, historyDTO.id.toString()))
             .body(historyDTO);
     }
 
@@ -116,10 +116,10 @@ public class HistoryResource {
         @NotNull @RequestBody HistoryDTO historyDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update History partially : {}, {}", id, historyDTO);
-        if (historyDTO.getId() == null) {
+        if (historyDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, historyDTO.getId())) {
+        if (!Objects.equals(id, historyDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -131,7 +131,7 @@ public class HistoryResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, historyDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, historyDTO.id.toString())
         );
     }
 

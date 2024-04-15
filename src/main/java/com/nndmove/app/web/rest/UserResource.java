@@ -110,12 +110,12 @@ public class UserResource {
     public ResponseEntity<User> createUser(@Valid @RequestBody AdminUserDTO userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
 
-        if (userDTO.getId() != null) {
+        if (userDTO.id != null) {
             throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
             // Lowercase the user login before comparing with database
-        } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
+        } else if (userRepository.findOneByLogin(userDTO.login.toLowerCase()).isPresent()) {
             throw new LoginAlreadyUsedException();
-        } else if (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
+        } else if (userRepository.findOneByEmailIgnoreCase(userDTO.email).isPresent()) {
             throw new EmailAlreadyUsedException();
         } else {
             User newUser = userService.createUser(userDTO);
@@ -143,19 +143,19 @@ public class UserResource {
         @Valid @RequestBody AdminUserDTO userDTO
     ) {
         log.debug("REST request to update User : {}", userDTO);
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.getId()))) {
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.email);
+        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.id))) {
             throw new EmailAlreadyUsedException();
         }
-        existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
-        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.getId()))) {
+        existingUser = userRepository.findOneByLogin(userDTO.login.toLowerCase());
+        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.id))) {
             throw new LoginAlreadyUsedException();
         }
         Optional<AdminUserDTO> updatedUser = userService.updateUser(userDTO);
 
         return ResponseUtil.wrapOrNotFound(
             updatedUser,
-            HeaderUtil.createAlert(applicationName, "A user is updated with identifier " + userDTO.getLogin(), userDTO.getLogin())
+            HeaderUtil.createAlert(applicationName, "A user is updated with identifier " + userDTO.login, userDTO.login)
         );
     }
 

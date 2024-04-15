@@ -66,7 +66,7 @@ public class GenresService {
         log.debug("Request to partially update Genres : {}", genresDTO);
 
         return genresRepository
-            .findById(genresDTO.getId())
+            .findById(genresDTO.id)
             .map(existingGenres -> {
                 genresMapper.partialUpdate(existingGenres, genresDTO);
 

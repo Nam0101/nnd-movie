@@ -1,18 +1,14 @@
 package com.nndmove.app.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A Premium.
  */
-@Setter
-@Getter
 @Entity
 @Table(name = "premium")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -83,9 +79,41 @@ public class Premium implements Serializable {
     @Override
     public String toString() {
         return "Premium{" +
-            "id=" + getId() +
-            ", startTime='" + getStartTime() + "'" +
-            ", endTime='" + getEndTime() + "'" +
-            "}";
+                "id=" + getId() +
+                ", startTime='" + getStartTime() + "'" +
+                ", endTime='" + getEndTime() + "'" +
+                "}";
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public @NotNull ZonedDateTime getStartTime() {
+        return this.startTime;
+    }
+
+    public @NotNull ZonedDateTime getEndTime() {
+        return this.endTime;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setStartTime(@NotNull ZonedDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(@NotNull ZonedDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

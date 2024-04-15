@@ -66,7 +66,7 @@ public class HistoryService {
         log.debug("Request to partially update History : {}", historyDTO);
 
         return historyRepository
-            .findById(historyDTO.getId())
+            .findById(historyDTO.id)
             .map(existingHistory -> {
                 historyMapper.partialUpdate(existingHistory, historyDTO);
 

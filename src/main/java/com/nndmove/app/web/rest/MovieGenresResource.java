@@ -55,12 +55,12 @@ public class MovieGenresResource {
     @PostMapping("")
     public ResponseEntity<MovieGenresDTO> createMovieGenres(@RequestBody MovieGenresDTO movieGenresDTO) throws URISyntaxException {
         log.debug("REST request to save MovieGenres : {}", movieGenresDTO);
-        if (movieGenresDTO.getId() != null) {
+        if (movieGenresDTO.id != null) {
             throw new BadRequestAlertException("A new movieGenres cannot already have an ID", ENTITY_NAME, "idexists");
         }
         movieGenresDTO = movieGenresService.save(movieGenresDTO);
-        return ResponseEntity.created(new URI("/api/movie-genres/" + movieGenresDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, movieGenresDTO.getId().toString()))
+        return ResponseEntity.created(new URI("/api/movie-genres/" + movieGenresDTO.id))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, movieGenresDTO.id.toString()))
             .body(movieGenresDTO);
     }
 
@@ -80,10 +80,10 @@ public class MovieGenresResource {
         @RequestBody MovieGenresDTO movieGenresDTO
     ) throws URISyntaxException {
         log.debug("REST request to update MovieGenres : {}, {}", id, movieGenresDTO);
-        if (movieGenresDTO.getId() == null) {
+        if (movieGenresDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, movieGenresDTO.getId())) {
+        if (!Objects.equals(id, movieGenresDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -93,7 +93,7 @@ public class MovieGenresResource {
 
         movieGenresDTO = movieGenresService.update(movieGenresDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieGenresDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieGenresDTO.id.toString()))
             .body(movieGenresDTO);
     }
 
@@ -114,10 +114,10 @@ public class MovieGenresResource {
         @RequestBody MovieGenresDTO movieGenresDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update MovieGenres partially : {}, {}", id, movieGenresDTO);
-        if (movieGenresDTO.getId() == null) {
+        if (movieGenresDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, movieGenresDTO.getId())) {
+        if (!Objects.equals(id, movieGenresDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -129,7 +129,7 @@ public class MovieGenresResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieGenresDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movieGenresDTO.id.toString())
         );
     }
 

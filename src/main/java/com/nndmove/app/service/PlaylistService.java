@@ -66,7 +66,7 @@ public class PlaylistService {
         log.debug("Request to partially update Playlist : {}", playlistDTO);
 
         return playlistRepository
-            .findById(playlistDTO.getId())
+            .findById(playlistDTO.id)
             .map(existingPlaylist -> {
                 playlistMapper.partialUpdate(existingPlaylist, playlistDTO);
 

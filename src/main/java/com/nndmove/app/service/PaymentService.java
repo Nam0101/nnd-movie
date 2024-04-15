@@ -66,7 +66,7 @@ public class PaymentService {
         log.debug("Request to partially update Payment : {}", paymentDTO);
 
         return paymentRepository
-            .findById(paymentDTO.getId())
+            .findById(paymentDTO.id)
             .map(existingPayment -> {
                 paymentMapper.partialUpdate(existingPayment, paymentDTO);
 

@@ -57,12 +57,12 @@ public class PaymentResource {
     @PostMapping("")
     public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to save Payment : {}", paymentDTO);
-        if (paymentDTO.getId() != null) {
+        if (paymentDTO.id != null) {
             throw new BadRequestAlertException("A new payment cannot already have an ID", ENTITY_NAME, "idexists");
         }
         paymentDTO = paymentService.save(paymentDTO);
-        return ResponseEntity.created(new URI("/api/payments/" + paymentDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, paymentDTO.getId().toString()))
+        return ResponseEntity.created(new URI("/api/payments/" + paymentDTO.id))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, paymentDTO.id.toString()))
             .body(paymentDTO);
     }
 
@@ -82,10 +82,10 @@ public class PaymentResource {
         @Valid @RequestBody PaymentDTO paymentDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Payment : {}, {}", id, paymentDTO);
-        if (paymentDTO.getId() == null) {
+        if (paymentDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, paymentDTO.getId())) {
+        if (!Objects.equals(id, paymentDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -95,7 +95,7 @@ public class PaymentResource {
 
         paymentDTO = paymentService.update(paymentDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, paymentDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, paymentDTO.id.toString()))
             .body(paymentDTO);
     }
 
@@ -116,10 +116,10 @@ public class PaymentResource {
         @NotNull @RequestBody PaymentDTO paymentDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Payment partially : {}, {}", id, paymentDTO);
-        if (paymentDTO.getId() == null) {
+        if (paymentDTO.id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, paymentDTO.getId())) {
+        if (!Objects.equals(id, paymentDTO.id)) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -131,7 +131,7 @@ public class PaymentResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, paymentDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, paymentDTO.id.toString())
         );
     }
 

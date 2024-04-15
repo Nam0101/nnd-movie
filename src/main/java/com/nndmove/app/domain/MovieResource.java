@@ -2,17 +2,13 @@ package com.nndmove.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A MovieResource.
  */
-@Setter
-@Getter
 @Entity
 @Table(name = "movie_resource")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -93,10 +89,51 @@ public class MovieResource implements Serializable {
     @Override
     public String toString() {
         return "MovieResource{" +
-            "id=" + getId() +
-            ", part=" + getPart() +
-            ", linkEmbed='" + getLinkEmbed() + "'" +
-            ", linkM3u8='" + getLinkM3u8() + "'" +
-            "}";
+                "id=" + getId() +
+                ", part=" + getPart() +
+                ", linkEmbed='" + getLinkEmbed() + "'" +
+                ", linkM3u8='" + getLinkM3u8() + "'" +
+                "}";
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public @NotNull Integer getPart() {
+        return this.part;
+    }
+
+    public @NotNull String getLinkEmbed() {
+        return this.linkEmbed;
+    }
+
+    public @NotNull String getLinkM3u8() {
+        return this.linkM3u8;
+    }
+
+    public Movie getMovie() {
+        return this.movie;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPart(@NotNull Integer part) {
+        this.part = part;
+    }
+
+    public void setLinkEmbed(@NotNull String linkEmbed) {
+        this.linkEmbed = linkEmbed;
+    }
+
+    public void setLinkM3u8(@NotNull String linkM3u8) {
+        this.linkM3u8 = linkM3u8;
+    }
+
+    @JsonIgnoreProperties(value = { "genres" }, allowSetters = true)
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

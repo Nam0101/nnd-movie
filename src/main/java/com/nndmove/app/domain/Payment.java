@@ -1,17 +1,13 @@
 package com.nndmove.app.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A Payment.
  */
-@Setter
-@Getter
 @Entity
 @Table(name = "payment")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -109,12 +105,68 @@ public class Payment implements Serializable {
     @Override
     public String toString() {
         return "Payment{" +
-            "id=" + getId() +
-            ", paymentTime=" + getPaymentTime() +
-            ", paymentPrice=" + getPaymentPrice() +
-            ", paymentMethod='" + getPaymentMethod() + "'" +
-            ", status='" + getStatus() + "'" +
-            ", transactionId='" + getTransactionId() + "'" +
-            "}";
+                "id=" + getId() +
+                ", paymentTime=" + getPaymentTime() +
+                ", paymentPrice=" + getPaymentPrice() +
+                ", paymentMethod='" + getPaymentMethod() + "'" +
+                ", status='" + getStatus() + "'" +
+                ", transactionId='" + getTransactionId() + "'" +
+                "}";
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public @NotNull Long getPaymentTime() {
+        return this.paymentTime;
+    }
+
+    public @NotNull Long getPaymentPrice() {
+        return this.paymentPrice;
+    }
+
+    public @NotNull String getPaymentMethod() {
+        return this.paymentMethod;
+    }
+
+    public @NotNull String getStatus() {
+        return this.status;
+    }
+
+    public @NotNull String getTransactionId() {
+        return this.transactionId;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPaymentTime(@NotNull Long paymentTime) {
+        this.paymentTime = paymentTime;
+    }
+
+    public void setPaymentPrice(@NotNull Long paymentPrice) {
+        this.paymentPrice = paymentPrice;
+    }
+
+    public void setPaymentMethod(@NotNull String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setStatus(@NotNull String status) {
+        this.status = status;
+    }
+
+    public void setTransactionId(@NotNull String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

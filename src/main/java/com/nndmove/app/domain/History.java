@@ -2,7 +2,7 @@ package com.nndmove.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -128,9 +128,9 @@ public class History implements Serializable {
     @Override
     public String toString() {
         return "History{" +
-            "id=" + getId() +
-            ", part=" + getPart() +
-            ", stopTime=" + getStopTime() +
-            "}";
+                "id=" + getId() +
+                ", part=" + getPart() +
+                ", stopTime=" + getStopTime() +
+                "}";
     }
 }

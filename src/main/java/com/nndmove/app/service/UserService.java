@@ -95,7 +95,7 @@ public class UserService {
 
     public User registerUser(AdminUserDTO userDTO, String password) {
         userRepository
-            .findOneByLogin(userDTO.getLogin().toLowerCase())
+            .findOneByLogin(userDTO.login.toLowerCase())
             .ifPresent(existingUser -> {
                 boolean removed = removeNonActivatedUser(existingUser);
                 if (!removed) {
@@ -103,7 +103,7 @@ public class UserService {
                 }
             });
         userRepository
-            .findOneByEmailIgnoreCase(userDTO.getEmail())
+            .findOneByEmailIgnoreCase(userDTO.email)
             .ifPresent(existingUser -> {
                 boolean removed = removeNonActivatedUser(existingUser);
                 if (!removed) {
@@ -112,16 +112,16 @@ public class UserService {
             });
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        newUser.setLogin(userDTO.login.toLowerCase());
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
-        newUser.setFirstName(userDTO.getFirstName());
-        newUser.setLastName(userDTO.getLastName());
-        if (userDTO.getEmail() != null) {
-            newUser.setEmail(userDTO.getEmail().toLowerCase());
+        newUser.setFirstName(userDTO.firstName);
+        newUser.setLastName(userDTO.lastName);
+        if (userDTO.email != null) {
+            newUser.setEmail(userDTO.email.toLowerCase());
         }
-        newUser.setImageUrl(userDTO.getImageUrl());
-        newUser.setLangKey(userDTO.getLangKey());
+        newUser.setImageUrl(userDTO.imageUrl);
+        newUser.setLangKey(userDTO.langKey);
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
@@ -147,26 +147,25 @@ public class UserService {
 
     public User createUser(AdminUserDTO userDTO) {
         User user = new User();
-        user.setLogin(userDTO.getLogin().toLowerCase());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        if (userDTO.getEmail() != null) {
-            user.setEmail(userDTO.getEmail().toLowerCase());
+        user.setLogin(userDTO.login.toLowerCase());
+        user.setFirstName(userDTO.firstName);
+        user.setLastName(userDTO.lastName);
+        if (userDTO.email != null) {
+            user.setEmail(userDTO.email.toLowerCase());
         }
-        user.setImageUrl(userDTO.getImageUrl());
-        if (userDTO.getLangKey() == null) {
+        user.setImageUrl(userDTO.imageUrl);
+        if (userDTO.langKey == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
         } else {
-            user.setLangKey(userDTO.getLangKey());
+            user.setLangKey(userDTO.langKey);
         }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
-        if (userDTO.getAuthorities() != null) {
-            Set<Authority> authorities = userDTO
-                .getAuthorities()
+        if (userDTO.authorities != null) {
+            Set<Authority> authorities = userDTO.authorities
                 .stream()
                 .map(authorityRepository::findById)
                 .filter(Optional::isPresent)
@@ -187,24 +186,23 @@ public class UserService {
      * @return updated user.
      */
     public Optional<AdminUserDTO> updateUser(AdminUserDTO userDTO) {
-        return Optional.of(userRepository.findById(userDTO.getId()))
+        return Optional.of(userRepository.findById(userDTO.id))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(user -> {
                 this.clearUserCaches(user);
-                user.setLogin(userDTO.getLogin().toLowerCase());
-                user.setFirstName(userDTO.getFirstName());
-                user.setLastName(userDTO.getLastName());
-                if (userDTO.getEmail() != null) {
-                    user.setEmail(userDTO.getEmail().toLowerCase());
+                user.setLogin(userDTO.login.toLowerCase());
+                user.setFirstName(userDTO.firstName);
+                user.setLastName(userDTO.lastName);
+                if (userDTO.email != null) {
+                    user.setEmail(userDTO.email.toLowerCase());
                 }
-                user.setImageUrl(userDTO.getImageUrl());
+                user.setImageUrl(userDTO.imageUrl);
                 user.setActivated(userDTO.isActivated());
-                user.setLangKey(userDTO.getLangKey());
+                user.setLangKey(userDTO.langKey);
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
-                userDTO
-                    .getAuthorities()
+                userDTO.authorities
                     .stream()
                     .map(authorityRepository::findById)
                     .filter(Optional::isPresent)
