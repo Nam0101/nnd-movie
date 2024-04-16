@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.annotation.EnableAspectJAutoProxy
 import org.springframework.core.env.Environment
 import tech.jhipster.config.DefaultProfileUtil
 import tech.jhipster.config.JHipsterConstants
@@ -19,6 +20,7 @@ import java.util.*
 
 @SpringBootApplication
 @EnableConfigurationProperties(LiquibaseProperties::class, ApplicationProperties::class)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 open class JhipsterApp(private val env: Environment) {
     /**
      * Initializes jhipster.
@@ -97,7 +99,7 @@ open class JhipsterApp(private val env: Environment) {
                 hostAddress,
                 serverPort,
                 contextPath,
-                if (env.activeProfiles.size == 0) env.defaultProfiles else env.activeProfiles
+                if (env.activeProfiles.isEmpty()) env.defaultProfiles else env.activeProfiles
             )
         }
     }

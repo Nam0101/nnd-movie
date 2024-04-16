@@ -18,7 +18,7 @@ import java.util.*
  *
  * @see [JHipster issue](https://github.com/jhipster/generator-jhipster/issues/14949)
  */
-class CRLFLogConverter : CompositeConverter<ILoggingEvent>() {
+open class CRLFLogConverter : CompositeConverter<ILoggingEvent>() {
     override fun transform(event: ILoggingEvent, `in`: String): String {
         val element = ELEMENTS[firstOption]
         val markers = event.markerList
@@ -29,7 +29,7 @@ class CRLFLogConverter : CompositeConverter<ILoggingEvent>() {
         return `in`.replace("[\n\r\t]".toRegex(), replacement)
     }
 
-    protected fun isLoggerSafe(event: ILoggingEvent): Boolean {
+    private fun isLoggerSafe(event: ILoggingEvent): Boolean {
         for (safeLogger in SAFE_LOGGERS) {
             if (event.loggerName.startsWith(safeLogger)) {
                 return true
@@ -38,7 +38,7 @@ class CRLFLogConverter : CompositeConverter<ILoggingEvent>() {
         return false
     }
 
-    protected fun toAnsiString(`in`: String?, element: AnsiElement?): String {
+    private fun toAnsiString(`in`: String?, element: AnsiElement?): String {
         return AnsiOutput.toString(element, `in`)
     }
 

@@ -199,10 +199,10 @@ jhipster:
     version: 0.0.1
     terms-of-service-url:
     contact-name: Nam Nguyen
-    contact-url:
+    contact-url: https://www.facebook.com/nam.nv5106
     contact-email: nam.nv205106@gmail.com
-    license: unlicensed
-    license-url:
+    license: Apache 2.0
+    license-url: http://www.apache.org/licenses/LICENSE-2.0.html
   security:
 # ===================================================================
 # Application specific properties

@@ -15,4 +15,5 @@ class ApplicationWebXml : SpringBootServletInitializer() {
         DefaultProfileUtil.addDefaultProfile(application.application())
         return application.sources(JhipsterApp::class.java)
     }
+
 }

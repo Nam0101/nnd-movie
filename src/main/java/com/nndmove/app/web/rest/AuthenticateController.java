@@ -57,6 +57,8 @@ public class AuthenticateController {
             loginVM.username,
             loginVM.password
         );
+        // log the name of current thread
+        log.debug("Current thread name: {}", Thread.currentThread().getName());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -64,6 +66,11 @@ public class AuthenticateController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("threads")
+    public ResponseEntity<String> getThreadName() {
+        return ResponseEntity.ok(Thread.currentThread().getName());
     }
 
     /**
